@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#1a56db">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Reforço $">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon.svg">
+<title>Reforço Escolar</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --blue: #1a56db;
+  --blue-light: #e8f0fe;
+  --blue-dark: #1341b0;
+  --green: #0a7c4e;
+  --green-light: #dcfce7;
+  --red: #b91c1c;
+  --red-light: #fee2e2;
+  --amber: #92400e;
+  --amber-light: #fef3c7;
+  --bg: #f4f6fb;
+  --surface: #ffffff;
+  --border: #e2e8f0;
+  --text: #0f172a;
+  --text-2: #64748b;
+  --text-3: #94a3b8;
+  --radius: 14px;
+  --radius-sm: 8px;
+  --nav-h: 64px;
+  --header-h: 56px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+html, body { height: 100%; overflow: hidden; }
+body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); font-size: 15px; }
+
+/* LAYOUT */
+#app { display: flex; flex-direction: column; height: 100%; }
+.header { height: var(--header-h); background: var(--surface); border-bottom: 1px solid var(--border); display: flex; align-items: center; padding: 0 16px; gap: 10px; flex-shrink: 0; position: relative; }
+.header-title { font-size: 17px; font-weight: 600; flex: 1; }
+.header-action { background: none; border: none; cursor: pointer; color: var(--text-2); font-size: 22px; padding: 4px; line-height: 1; }
+.back-btn { background: none; border: none; cursor: pointer; color: var(--blue); font-size: 15px; font-weight: 500; padding: 4px; display: flex; align-items: center; gap: 4px; }
+.content { flex: 1; overflow-y: auto; padding: 16px; -webkit-overflow-scrolling: touch; }
+.nav { height: var(--nav-h); background: var(--surface); border-top: 1px solid var(--border); display: flex; flex-shrink: 0; }
+.nav-btn { flex: 1; border: none; background: none; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; font-size: 10px; font-family: 'DM Sans', sans-serif; color: var(--text-3); transition: color 0.15s; padding-bottom: env(safe-area-inset-bottom, 0); }
+.nav-btn.active { color: var(--blue); }
+.nav-icon { font-size: 22px; line-height: 1; }
+
+/* CARDS */
+.card { background: var(--surface); border-radius: var(--radius); border: 1px solid var(--border); padding: 14px 16px; margin-bottom: 10px; }
+.card-title { font-size: 13px; font-weight: 600; color: var(--text-2); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px; }
+
+/* METRICS */
+.metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+.metric { background: var(--surface); border-radius: var(--radius); border: 1px solid var(--border); padding: 14px; }
+.metric-label { font-size: 12px; color: var(--text-2); margin-bottom: 6px; font-weight: 500; }
+.metric-val { font-size: 20px; font-weight: 600; }
+.c-green { color: var(--green); }
+.c-red { color: var(--red); }
+.c-blue { color: var(--blue); }
+
+/* LIST */
+.list-row { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--border); gap: 8px; }
+.list-row:last-child { border-bottom: none; }
+.row-name { font-size: 15px; font-weight: 500; }
+.row-sub { font-size: 12px; color: var(--text-2); margin-top: 2px; }
+.row-right { text-align: right; flex-shrink: 0; }
+
+/* BADGES */
+.badge { display: inline-block; padding: 3px 9px; border-radius: 20px; font-size: 11px; font-weight: 600; }
+.badge-green { background: var(--green-light); color: var(--green); }
+.badge-red { background: var(--red-light); color: var(--red); }
+.badge-amber { background: var(--amber-light); color: var(--amber); }
+.badge-blue { background: var(--blue-light); color: var(--blue); }
+.badge-gray { background: #f1f5f9; color: var(--text-2); }
+
+/* BUTTONS */
+.btn { display: block; width: 100%; padding: 13px; border-radius: var(--radius-sm); font-size: 15px; font-weight: 600; cursor: pointer; border: none; text-align: center; font-family: 'DM Sans', sans-serif; transition: opacity 0.15s; }
+.btn:active { opacity: 0.8; }
+.btn-primary { background: var(--blue); color: #fff; }
+.btn-secondary { background: #f1f5f9; color: var(--text); }
+.btn-danger { background: var(--red-light); color: var(--red); }
+.btn-sm { width: auto; display: inline-block; padding: 8px 14px; font-size: 13px; }
+.btn-row { display: flex; gap: 8px; margin-bottom: 14px; }
+.btn-row .btn { flex: 1; }
+
+/* FORMS */
+.field { margin-bottom: 12px; }
+.field label { font-size: 13px; font-weight: 500; color: var(--text-2); display: block; margin-bottom: 5px; }
+input, select, textarea { width: 100%; padding: 11px 13px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 15px; background: var(--surface); color: var(--text); font-family: 'DM Sans', sans-serif; outline: none; -webkit-appearance: none; appearance: none; }
+input:focus, select:focus, textarea:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(26,86,219,0.1); }
+.fields-row { display: flex; gap: 10px; }
+.fields-row .field { flex: 1; }
+
+/* MODAL */
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 200; display: flex; align-items: flex-end; }
+.modal-sheet { background: var(--surface); border-radius: 20px 20px 0 0; width: 100%; max-height: 88vh; overflow-y: auto; padding: 20px 16px calc(20px + env(safe-area-inset-bottom, 0)); }
+.modal-handle { width: 36px; height: 4px; background: var(--border); border-radius: 2px; margin: 0 auto 16px; }
+.modal-title { font-size: 18px; font-weight: 600; margin-bottom: 16px; }
+
+/* MISC */
+.section-label { font-size: 12px; font-weight: 600; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.6px; margin: 16px 0 8px; }
+.empty { text-align: center; padding: 48px 16px; color: var(--text-2); }
+.empty-icon { font-size: 44px; margin-bottom: 10px; }
+.progress-wrap { height: 6px; background: #e2e8f0; border-radius: 3px; overflow: hidden; margin-top: 8px; }
+.progress-bar { height: 100%; background: var(--blue); border-radius: 3px; transition: width 0.4s; }
+.alert-card { background: var(--amber-light); border: 1px solid #fcd34d; border-radius: var(--radius); padding: 12px 14px; margin-bottom: 10px; display: flex; gap: 10px; align-items: center; }
+.delete-btn { background: none; border: none; cursor: pointer; color: var(--text-3); font-size: 18px; padding: 4px; line-height: 1; }
+.avatar { width: 48px; height: 48px; border-radius: 50%; background: var(--blue-light); display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 600; color: var(--blue); flex-shrink: 0; }
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="header" id="header">
+    <span style="font-size:24px">📚</span>
+    <span class="header-title" id="page-title">Reforço Escolar</span>
+    <button class="header-action" onclick="go('backup')" title="Backup">💾</button>
+  </div>
+  <div class="content" id="content"></div>
+  <nav class="nav" id="nav">
+    <button class="nav-btn active" onclick="go('home')" id="nb-home"><span class="nav-icon">🏠</span><span>Início</span></button>
+    <button class="nav-btn" onclick="go('alunos')" id="nb-alunos"><span class="nav-icon">👩‍🎓</span><span>Alunos</span></button>
+    <button class="nav-btn" onclick="go('pagamentos')" id="nb-pagamentos"><span class="nav-icon">💰</span><span>Pagamentos</span></button>
+    <button class="nav-btn" onclick="go('despesas')" id="nb-despesas"><span class="nav-icon">🧾</span><span>Despesas</span></button>
+    <button class="nav-btn" onclick="go('relatorio')" id="nb-relatorio"><span class="nav-icon">📊</span><span>Relatório</span></button>
+  </nav>
+</div>
+
+<script>
+// ---- STATE ----
+let page = 'home', alunoId = null, modalType = null, editId = null, relMes = hoje().slice(0,7), modalPrefill = null;
+
+// ---- STORAGE ----
+function load(k){ try{ return JSON.parse(localStorage.getItem(k)||'[]') }catch(e){ return [] } }
+function save(k,v){ localStorage.setItem(k,JSON.stringify(v)) }
+function uid(){ return Date.now().toString(36)+Math.random().toString(36).slice(2,5) }
+function hoje(){ return new Date().toISOString().slice(0,10) }
+
+// ---- FORMAT ----
+function brl(v){ return 'R$ '+Number(v||0).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2}) }
+function fdata(d){ if(!d)return ''; const[y,m,di]=d.split('-'); return `${di}/${m}/${y}` }
+function nomes12(){ const n=['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez']; return n }
+function mesLabel(ym){ const[y,m]=ym.split('-'); return nomes12()[parseInt(m)-1]+'/'+y }
+function last12(){ const r=[]; const d=new Date(); for(let i=0;i<12;i++){ r.push(d.toISOString().slice(0,7)); d.setMonth(d.getMonth()-1); } return r }
+
+// ---- NAVIGATE ----
+function go(p, sub){
+  page = p; alunoId = sub||null;
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  const nb = document.getElementById('nb-'+p); if(nb) nb.classList.add('active');
+  render();
+}
+
+// ---- RENDER ----
+function render(){
+  const titles = {home:'Reforço Escolar',alunos:'Alunos',pagamentos:'Pagamentos',despesas:'Despesas',relatorio:'Relatório Mensal','aluno-detalhe':'Perfil do Aluno',backup:'Backup'};
+  const h = document.getElementById('header');
+  const nav = document.getElementById('nav');
+  nav.style.display = 'flex';
+  if(page==='aluno-detalhe'){
+    h.innerHTML = `<button class="back-btn" onclick="go('alunos')">← Voltar</button><span class="header-title">Perfil</span>`;
+    nav.style.display = 'none';
+  } else if(page==='backup'){
+    h.innerHTML = `<button class="back-btn" onclick="go('home')">← Voltar</button><span class="header-title">Backup</span>`;
+    nav.style.display = 'none';
+  } else {
+    h.innerHTML = `<span style="font-size:24px">📚</span><span class="header-title">${titles[page]||''}</span>`;
+  }
+  const c = document.getElementById('content');
+  if(page==='home') renderHome(c);
+  else if(page==='alunos') renderAlunos(c);
+  else if(page==='aluno-detalhe') renderAlunoDetalhe(c);
+  else if(page==='pagamentos') renderPagamentos(c);
+  else if(page==='despesas') renderDespesas(c);
+  else if(page==='relatorio') renderRelatorio(c);
+  else if(page==='backup') renderBackup(c);
+}
+
+function renderHome(c){
+  const alunos=load('alunos'), pags=load('pagamentos'), desps=load('despesas');
+  const mes=hoje().slice(0,7);
+  const recMes=pags.filter(p=>p.data.startsWith(mes)).reduce((s,p)=>s+Number(p.valor),0);
+  const despMes=desps.filter(d=>d.data.startsWith(mes)).reduce((s,d)=>s+Number(d.valor),0);
+  const saldo=recMes-despMes;
+  const ativos=alunos.filter(a=>a.status==='ativo');
+  const pend=ativos.filter(a=>!pags.some(p=>p.alunoId===a.id&&p.data.startsWith(mes)));
+  c.innerHTML=`
+    <p style="font-size:13px;color:var(--text-2);margin-bottom:10px">${mesLabel(mes)}</p>
+    <div class="metrics">
+      <div class="metric"><div class="metric-label">Receita</div><div class="metric-val c-green">${brl(recMes)}</div></div>
+      <div class="metric"><div class="metric-label">Despesas</div><div class="metric-val c-red">${brl(despMes)}</div></div>
+      <div class="metric"><div class="metric-label">Saldo</div><div class="metric-val ${saldo>=0?'c-blue':'c-red'}">${brl(saldo)}</div></div>
+      <div class="metric"><div class="metric-label">Alunos ativos</div><div class="metric-val">${ativos.length}</div></div>
+    </div>
+    ${pend.length?`<div class="alert-card"><span style="font-size:22px">⚠️</span><div><div style="font-weight:600;color:var(--amber)">${pend.length} aluno${pend.length>1?'s':''} sem pagamento</div><div style="font-size:12px;color:var(--amber)">${pend.map(a=>a.nome).join(', ')}</div></div></div>`:''}
+    <p class="section-label">Ações rápidas</p>
+    <div class="card" style="cursor:pointer;margin-bottom:10px" onclick="openModal('pagamento')">
+      <div style="display:flex;align-items:center;gap:12px"><span style="font-size:26px">💰</span><div><div style="font-weight:600">Registrar pagamento</div><div class="row-sub">Lançar mensalidade recebida</div></div><span style="margin-left:auto;color:var(--text-3)">›</span></div>
+    </div>
+    <div class="card" style="cursor:pointer" onclick="openModal('despesa')">
+      <div style="display:flex;align-items:center;gap:12px"><span style="font-size:26px">🧾</span><div><div style="font-weight:600">Registrar despesa</div><div class="row-sub">Lançar gasto do mês</div></div><span style="margin-left:auto;color:var(--text-3)">›</span></div>
+    </div>
+  `;
+}
+
+function renderAlunos(c){
+  const alunos=load('alunos'), pags=load('pagamentos');
+  const mes=hoje().slice(0,7);
+  const ativos=alunos.filter(a=>a.status==='ativo');
+  const inativos=alunos.filter(a=>a.status!=='ativo');
+  let html=`<div style="margin-bottom:12px"><button class="btn btn-primary" onclick="openModal('aluno')">+ Novo aluno</button></div>`;
+  if(!alunos.length){ html+=`<div class="empty"><div class="empty-icon">👩‍🎓</div><p>Nenhum aluno cadastrado</p></div>`; }
+  else {
+    if(ativos.length){
+      html+=`<p class="section-label">Ativos (${ativos.length})</p><div class="card">`;
+      ativos.forEach(a=>{
+        const pago=pags.some(p=>p.alunoId===a.id&&p.data.startsWith(mes));
+        html+=`<div class="list-row" onclick="go('aluno-detalhe','${a.id}')" style="cursor:pointer">
+          <div><div class="row-name">${a.nome}</div><div class="row-sub">${[a.materia,a.valor?brl(a.valor):'',a.diaVencimento?'Venc. dia '+a.diaVencimento:''].filter(Boolean).join(' · ')}</div></div>
+          <span class="badge ${pago?'badge-green':'badge-amber'}">${pago?'Pago':'Pendente'}</span>
+        </div>`;
+      });
+      html+=`</div>`;
+    }
+    if(inativos.length){
+      html+=`<p class="section-label">Inativos (${inativos.length})</p><div class="card">`;
+      inativos.forEach(a=>{ html+=`<div class="list-row" onclick="go('aluno-detalhe','${a.id}')" style="cursor:pointer"><div><div class="row-name" style="color:var(--text-2)">${a.nome}</div><div class="row-sub">${a.materia||''}</div></div><span class="badge badge-gray">Inativo</span></div>`; });
+      html+=`</div>`;
+    }
+  }
+  c.innerHTML=html;
+}
+
+function renderAlunoDetalhe(c){
+  const alunos=load('alunos'), pags=load('pagamentos');
+  const a=alunos.find(x=>x.id===alunoId);
+  if(!a){ go('alunos'); return; }
+  const histPags=pags.filter(p=>p.alunoId===a.id).sort((x,y)=>y.data.localeCompare(x.data));
+  const total=histPags.reduce((s,p)=>s+Number(p.valor),0);
+  c.innerHTML=`
+    <div class="card" style="text-align:center;margin-bottom:12px">
+      <div class="avatar" style="margin:0 auto 10px;width:60px;height:60px;font-size:22px">${a.nome.charAt(0).toUpperCase()}</div>
+      <div style="font-size:19px;font-weight:600">${a.nome}</div>
+      ${a.materia?`<div class="row-sub" style="margin-top:3px">${a.materia}</div>`:''}
+      <span class="badge ${a.status==='ativo'?'badge-green':'badge-gray'}" style="margin-top:8px">${a.status==='ativo'?'Ativo':'Inativo'}</span>
+    </div>
+    <div class="metrics">
+      <div class="metric"><div class="metric-label">Mensalidade</div><div class="metric-val c-blue" style="font-size:16px">${a.valor?brl(a.valor):'—'}</div></div>
+      <div class="metric"><div class="metric-label">Total recebido</div><div class="metric-val c-green" style="font-size:16px">${brl(total)}</div></div>
+    </div>
+    ${a.telefone?`<div class="card"><span class="row-sub">Telefone: </span><span style="font-weight:500">${a.telefone}</span></div>`:''}
+    ${a.obs?`<div class="card"><div class="row-sub" style="margin-bottom:4px">Observações</div><div style="font-size:14px">${a.obs}</div></div>`:''}
+    <div class="btn-row">
+      <button class="btn btn-secondary btn-sm" onclick="editarAluno('${a.id}')">Editar</button>
+      <button class="btn btn-primary btn-sm" onclick="openModal('pagamento','${a.id}')">+ Pagamento</button>
+      <button class="btn btn-danger btn-sm" onclick="excluirAluno('${a.id}')">Excluir</button>
+    </div>
+    <p class="section-label">Histórico de pagamentos</p>
+    ${!histPags.length?`<div class="empty" style="padding:24px"><div class="empty-icon" style="font-size:32px">💰</div><p>Nenhum pagamento</p></div>`:`
+    <div class="card">${histPags.map(p=>`<div class="list-row"><div><div class="row-name">${brl(p.valor)}</div><div class="row-sub">${fdata(p.data)}${p.obs?' · '+p.obs:''}</div></div><button class="delete-btn" onclick="excluirPag('${p.id}')">🗑</button></div>`).join('')}</div>`}
+  `;
+}
+
+function editarAluno(id){ editId=id; openModal('aluno'); }
+
+function excluirAluno(id){
+  if(!confirm('Excluir este aluno e todos os seus dados?')) return;
+  save('alunos', load('alunos').filter(a=>a.id!==id));
+  save('pagamentos', load('pagamentos').filter(p=>p.alunoId!==id));
+  go('alunos');
+}
+
+function excluirPag(id){
+  if(!confirm('Excluir este pagamento?')) return;
+  save('pagamentos', load('pagamentos').filter(p=>p.id!==id));
+  renderAlunoDetalhe(document.getElementById('content'));
+}
+
+function renderPagamentos(c){
+  const pags=load('pagamentos').sort((a,b)=>b.data.localeCompare(a.data));
+  const alunos=load('alunos');
+  const mes=hoje().slice(0,7);
+  const total=pags.filter(p=>p.data.startsWith(mes)).reduce((s,p)=>s+Number(p.valor),0);
+  c.innerHTML=`
+    <div style="margin-bottom:12px"><button class="btn btn-primary" onclick="openModal('pagamento')">+ Novo pagamento</button></div>
+    <div class="metric" style="margin-bottom:12px"><div class="metric-label">Total recebido este mês</div><div class="metric-val c-green">${brl(total)}</div></div>
+    <p class="section-label">Histórico</p>
+    ${!pags.length?`<div class="empty"><div class="empty-icon">💰</div><p>Nenhum pagamento registrado</p></div>`:`
+    <div class="card">${pags.slice(0,60).map(p=>{
+      const al=alunos.find(a=>a.id===p.alunoId);
+      return `<div class="list-row"><div><div class="row-name">${al?al.nome:'—'}</div><div class="row-sub">${fdata(p.data)}${p.obs?' · '+p.obs:''}</div></div><div class="row-right"><div style="font-weight:600;color:var(--green)">${brl(p.valor)}</div><button class="delete-btn" onclick="excluirPagLista('${p.id}')">🗑</button></div></div>`;
+    }).join('')}</div>`}
+  `;
+}
+
+function excluirPagLista(id){
+  if(!confirm('Excluir?')) return;
+  save('pagamentos', load('pagamentos').filter(p=>p.id!==id));
+  render();
+}
+
+function renderDespesas(c){
+  const desps=load('despesas').sort((a,b)=>b.data.localeCompare(a.data));
+  const mes=hoje().slice(0,7);
+  const total=desps.filter(d=>d.data.startsWith(mes)).reduce((s,d)=>s+Number(d.valor),0);
+  c.innerHTML=`
+    <div style="margin-bottom:12px"><button class="btn btn-primary" onclick="openModal('despesa')">+ Nova despesa</button></div>
+    <div class="metric" style="margin-bottom:12px"><div class="metric-label">Total de despesas este mês</div><div class="metric-val c-red">${brl(total)}</div></div>
+    <p class="section-label">Histórico</p>
+    ${!desps.length?`<div class="empty"><div class="empty-icon">🧾</div><p>Nenhuma despesa registrada</p></div>`:`
+    <div class="card">${desps.slice(0,60).map(d=>`<div class="list-row"><div><div class="row-name">${d.descricao}</div><div class="row-sub">${fdata(d.data)} <span class="badge badge-blue">${d.categoria||'Geral'}</span></div></div><div class="row-right"><div style="font-weight:600;color:var(--red)">${brl(d.valor)}</div><button class="delete-btn" onclick="excluirDesp('${d.id}')">🗑</button></div></div>`).join('')}</div>`}
+  `;
+}
+
+function excluirDesp(id){
+  if(!confirm('Excluir?')) return;
+  save('despesas', load('despesas').filter(d=>d.id!==id));
+  render();
+}
+
+function renderRelatorio(c){
+  const mes=relMes;
+  const pags=load('pagamentos').filter(p=>p.data.startsWith(mes));
+  const desps=load('despesas').filter(d=>d.data.startsWith(mes));
+  const alunos=load('alunos');
+  const rec=pags.reduce((s,p)=>s+Number(p.valor),0);
+  const desp=desps.reduce((s,d)=>s+Number(d.valor),0);
+  const saldo=rec-desp;
+  const ativos=alunos.filter(a=>a.status==='ativo');
+  const pagantes=new Set(pags.map(p=>p.alunoId)).size;
+  const inadimp=ativos.filter(a=>!pags.some(p=>p.alunoId===a.id));
+  const esperado=ativos.reduce((s,a)=>s+Number(a.valor||0),0);
+  const taxa=esperado>0?Math.round(rec/esperado*100):0;
+  const catDesp={};
+  desps.forEach(d=>{ catDesp[d.categoria||'Geral']=(catDesp[d.categoria||'Geral']||0)+Number(d.valor) });
+  c.innerHTML=`
+    <div style="margin-bottom:14px">
+      <select onchange="relMes=this.value;render()" style="width:100%">
+        ${last12().map(m=>`<option value="${m}" ${m===mes?'selected':''}>${mesLabel(m)}</option>`).join('')}
+      </select>
+    </div>
+    <div class="metrics">
+      <div class="metric"><div class="metric-label">Receita</div><div class="metric-val c-green">${brl(rec)}</div></div>
+      <div class="metric"><div class="metric-label">Despesas</div><div class="metric-val c-red">${brl(desp)}</div></div>
+    </div>
+    <div class="metric" style="margin-bottom:10px"><div class="metric-label">Saldo líquido</div><div class="metric-val ${saldo>=0?'c-blue':'c-red'}">${brl(saldo)}</div></div>
+    ${esperado>0?`<div class="card"><div style="display:flex;justify-content:space-between"><span class="row-sub">Taxa de recebimento</span><span style="font-weight:600">${taxa}%</span></div><div class="progress-wrap"><div class="progress-bar" style="width:${Math.min(100,taxa)}%"></div></div><div style="font-size:11px;color:var(--text-3);margin-top:5px">Esperado ${brl(esperado)} · Recebido ${brl(rec)}</div></div>`:''}
+    <p class="section-label">Alunos</p>
+    <div class="card">
+      <div class="list-row"><span class="row-sub">Ativos</span><span style="font-weight:600">${ativos.length}</span></div>
+      <div class="list-row"><span class="row-sub">Pagaram no mês</span><span style="font-weight:600;color:var(--green)">${pagantes}</span></div>
+      <div class="list-row"><span class="row-sub">Inadimplentes</span><span style="font-weight:600;color:${inadimp.length?'var(--red)':'var(--green)'}">${inadimp.length}</span></div>
+    </div>
+    ${inadimp.length?`<p class="section-label">Inadimplentes</p><div class="card">${inadimp.map(a=>`<div class="list-row"><div><div class="row-name">${a.nome}</div><div class="row-sub">${a.materia||''}</div></div><span class="badge badge-red">${a.valor?brl(a.valor):'—'}</span></div>`).join('')}</div>`:''}
+    ${Object.keys(catDesp).length?`<p class="section-label">Despesas por categoria</p><div class="card">${Object.entries(catDesp).sort((a,b)=>b[1]-a[1]).map(([cat,v])=>`<div class="list-row"><span>${cat}</span><span style="font-weight:600;color:var(--red)">${brl(v)}</span></div>`).join('')}</div>`:''}
+  `;
+}
+
+// ---- MODAL ----
+function openModal(type, prefill){
+  modalType=type; modalPrefill=prefill||null;
+  if(!prefill) editId=null;
+  showModal();
+}
+
+function showModal(){
+  const old=document.getElementById('modal-ov'); if(old) old.remove();
+  const ov=document.createElement('div');
+  ov.className='modal-overlay'; ov.id='modal-ov';
+  ov.onclick=e=>{ if(e.target===ov){ ov.remove(); modalType=null; editId=null; } };
+  const sh=document.createElement('div'); sh.className='modal-sheet';
+  sh.innerHTML='<div class="modal-handle"></div>'+getModalContent();
+  ov.appendChild(sh); document.getElementById('app').appendChild(ov);
+  if(modalType==='pagamento' && modalPrefill){
+    setTimeout(()=>{
+      const al=load('alunos').find(a=>a.id===modalPrefill);
+      const vf=document.getElementById('mf-valor');
+      if(al&&al.valor&&vf) vf.value=al.valor;
+    },30);
+  }
+}
+
+function getModalContent(){
+  if(modalType==='aluno'){
+    const alunos=load('alunos');
+    const ed=editId?alunos.find(a=>a.id===editId):null;
+    return `<div class="modal-title">${ed?'Editar':'Novo'} aluno</div>
+      <div class="field"><label>Nome *</label><input id="mf-nome" placeholder="Nome completo" value="${ed?ed.nome:''}"></div>
+      <div class="field"><label>Matéria / Nível</label><input id="mf-mat" placeholder="Ex: Matemática, Ensino Médio" value="${ed?ed.materia||'':''}"></div>
+      <div class="fields-row">
+        <div class="field"><label>Mensalidade (R$)</label><input id="mf-valor" type="number" placeholder="0,00" value="${ed?ed.valor||'':''}"></div>
+        <div class="field"><label>Dia vencimento</label><input id="mf-dia" type="number" min="1" max="31" placeholder="5" value="${ed?ed.diaVencimento||'':''}"></div>
+      </div>
+      <div class="field"><label>Telefone</label><input id="mf-tel" placeholder="(11) 99999-9999" value="${ed?ed.telefone||'':''}"></div>
+      <div class="field"><label>Status</label><select id="mf-status"><option value="ativo" ${!ed||ed.status==='ativo'?'selected':''}>Ativo</option><option value="inativo" ${ed&&ed.status==='inativo'?'selected':''}>Inativo</option></select></div>
+      <div class="field"><label>Observações</label><textarea id="mf-obs" rows="2" placeholder="Anotações...">${ed?ed.obs||'':''}</textarea></div>
+      <button class="btn btn-primary" onclick="salvarAluno()">Salvar aluno</button>`;
+  }
+  if(modalType==='pagamento'){
+    const alunos=load('alunos').filter(a=>a.status==='ativo');
+    return `<div class="modal-title">Registrar pagamento</div>
+      <div class="field"><label>Aluno *</label><select id="mf-aluno" onchange="autoValor()"><option value="">Selecione</option>${alunos.map(a=>`<option value="${a.id}" ${modalPrefill===a.id?'selected':''}>${a.nome}</option>`).join('')}</select></div>
+      <div class="field"><label>Valor (R$) *</label><input id="mf-valor" type="number" placeholder="0,00"></div>
+      <div class="field"><label>Data *</label><input id="mf-data" type="date" value="${hoje()}"></div>
+      <div class="field"><label>Observação</label><input id="mf-obs" placeholder="Ex: Referente a abril"></div>
+      <button class="btn btn-primary" onclick="salvarPagamento()">Salvar pagamento</button>`;
+  }
+  if(modalType==='despesa'){
+    return `<div class="modal-title">Registrar despesa</div>
+      <div class="field"><label>Descrição *</label><input id="mf-desc" placeholder="Ex: Material didático"></div>
+      <div class="field"><label>Valor (R$) *</label><input id="mf-valor" type="number" placeholder="0,00"></div>
+      <div class="field"><label>Data *</label><input id="mf-data" type="date" value="${hoje()}"></div>
+      <div class="field"><label>Categoria</label><select id="mf-cat"><option>Material didático</option><option>Transporte</option><option>Plataforma/Software</option><option>Alimentação</option><option>Outros</option></select></div>
+      <div class="field"><label>Observação</label><input id="mf-obs" placeholder="Opcional"></div>
+      <button class="btn btn-primary" onclick="salvarDespesa()">Salvar despesa</button>`;
+  }
+  return '';
+}
+
+function autoValor(){
+  const sel=document.getElementById('mf-aluno'); if(!sel) return;
+  const al=load('alunos').find(a=>a.id===sel.value);
+  const vf=document.getElementById('mf-valor');
+  if(al&&al.valor&&vf) vf.value=al.valor;
+}
+
+function closeModal(){ const ov=document.getElementById('modal-ov'); if(ov) ov.remove(); modalType=null; editId=null; }
+
+function salvarAluno(){
+  const nome=(document.getElementById('mf-nome').value||'').trim();
+  if(!nome){ alert('Informe o nome'); return; }
+  const alunos=load('alunos');
+  const obj={ id:editId||uid(), nome, materia:(document.getElementById('mf-mat').value||'').trim(), valor:document.getElementById('mf-valor').value, diaVencimento:document.getElementById('mf-dia').value, telefone:(document.getElementById('mf-tel').value||'').trim(), status:document.getElementById('mf-status').value, obs:(document.getElementById('mf-obs').value||'').trim() };
+  if(editId){ const i=alunos.findIndex(a=>a.id===editId); alunos[i]=obj; } else { alunos.push(obj); }
+  save('alunos',alunos); closeModal();
+  if(page==='aluno-detalhe') renderAlunoDetalhe(document.getElementById('content')); else render();
+}
+
+function salvarPagamento(){
+  const alunoId=document.getElementById('mf-aluno').value;
+  const valor=document.getElementById('mf-valor').value;
+  const data=document.getElementById('mf-data').value;
+  if(!alunoId||!valor||!data){ alert('Preencha os campos obrigatórios'); return; }
+  const pags=load('pagamentos');
+  pags.push({ id:uid(), alunoId, valor:parseFloat(valor), data, obs:(document.getElementById('mf-obs').value||'').trim() });
+  save('pagamentos',pags); closeModal();
+  if(page==='aluno-detalhe') renderAlunoDetalhe(document.getElementById('content')); else render();
+}
+
+function salvarDespesa(){
+  const desc=(document.getElementById('mf-desc').value||'').trim();
+  const valor=document.getElementById('mf-valor').value;
+  const data=document.getElementById('mf-data').value;
+  if(!desc||!valor||!data){ alert('Preencha os campos obrigatórios'); return; }
+  const desps=load('despesas');
+  desps.push({ id:uid(), descricao:desc, valor:parseFloat(valor), data, categoria:document.getElementById('mf-cat').value, obs:(document.getElementById('mf-obs').value||'').trim() });
+  save('despesas',desps); closeModal(); render();
+}
+
+// ---- BACKUP ----
+function renderBackup(c){
+  const alunos=load('alunos'), pags=load('pagamentos'), desps=load('despesas');
+  const total=alunos.length+pags.length+desps.length;
+  const ultima=localStorage.getItem('ultimo-backup');
+  c.innerHTML=`
+    <div class="card" style="margin-bottom:10px">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
+        <span style="font-size:36px">💾</span>
+        <div>
+          <div style="font-weight:600;font-size:16px">Exportar backup</div>
+          <div class="row-sub">${total} registro${total!==1?'s':''} salvos</div>
+          ${ultima?`<div style="font-size:11px;color:var(--text-3);margin-top:2px">Último backup: ${ultima}</div>`:''}
+        </div>
+      </div>
+      <p style="font-size:13px;color:var(--text-2);margin-bottom:12px">Salva um arquivo <strong>.json</strong> com todos os dados (alunos, pagamentos e despesas). Guarde no Google Drive, WhatsApp ou onde preferir.</p>
+      <button class="btn btn-primary" onclick="exportarBackup()">📥 Baixar backup agora</button>
+    </div>
+
+    <div class="card" style="margin-bottom:10px">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
+        <span style="font-size:36px">📤</span>
+        <div>
+          <div style="font-weight:600;font-size:16px">Importar backup</div>
+          <div class="row-sub">Restaurar dados de um arquivo .json</div>
+        </div>
+      </div>
+      <p style="font-size:13px;color:var(--text-2);margin-bottom:12px">Selecione um arquivo de backup gerado por este app. <strong style="color:var(--red)">Atenção: os dados atuais serão substituídos.</strong></p>
+      <label style="display:block">
+        <input type="file" accept=".json" onchange="importarBackup(event)" style="display:none" id="file-input">
+        <span class="btn btn-secondary" onclick="document.getElementById('file-input').click()" style="display:block;cursor:pointer;text-align:center">📂 Selecionar arquivo .json</span>
+      </label>
+    </div>
+
+    <div class="card" style="background:var(--amber-light);border-color:#fcd34d">
+      <div style="font-weight:600;color:var(--amber);margin-bottom:6px">💡 Dica de rotina</div>
+      <p style="font-size:13px;color:var(--amber)">Faça backup <strong>uma vez por semana</strong> e salve no Google Drive ou envie para si mesmo pelo WhatsApp. Assim seus dados estão seguros mesmo se o celular for perdido ou resetado.</p>
+    </div>
+
+    <p class="section-label" style="margin-top:16px">Resumo dos dados</p>
+    <div class="card">
+      <div class="list-row"><span class="row-sub">Alunos cadastrados</span><span style="font-weight:600">${alunos.length}</span></div>
+      <div class="list-row"><span class="row-sub">Pagamentos registrados</span><span style="font-weight:600">${pags.length}</span></div>
+      <div class="list-row"><span class="row-sub">Despesas registradas</span><span style="font-weight:600">${desps.length}</span></div>
+    </div>
+  `;
+}
+
+function exportarBackup(){
+  const dados={
+    versao: '1.0',
+    dataExportacao: new Date().toISOString(),
+    alunos: load('alunos'),
+    pagamentos: load('pagamentos'),
+    despesas: load('despesas')
+  };
+  const json = JSON.stringify(dados, null, 2);
+  const blob = new Blob([json], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  const dataStr = new Date().toLocaleDateString('pt-BR').replace(/\//g,'-');
+  a.href = url;
+  a.download = `backup-reforco-${dataStr}.json`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  const agora = new Date().toLocaleString('pt-BR');
+  localStorage.setItem('ultimo-backup', agora);
+  renderBackup(document.getElementById('content'));
+}
+
+function importarBackup(e){
+  const file = e.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = function(ev){
+    try {
+      const dados = JSON.parse(ev.target.result);
+      if(!dados.alunos || !dados.pagamentos || !dados.despesas){
+        alert('Arquivo inválido. Certifique-se de usar um backup gerado por este app.'); return;
+      }
+      if(!confirm(`Importar backup de ${dados.dataExportacao ? new Date(dados.dataExportacao).toLocaleString('pt-BR') : 'data desconhecida'}?\n\n${dados.alunos.length} alunos, ${dados.pagamentos.length} pagamentos, ${dados.despesas.length} despesas.\n\nOs dados atuais serão substituídos.`)) return;
+      save('alunos', dados.alunos);
+      save('pagamentos', dados.pagamentos);
+      save('despesas', dados.despesas);
+      alert('✅ Backup restaurado com sucesso!');
+      go('home');
+    } catch(err){
+      alert('Erro ao ler o arquivo. Verifique se é um backup válido.');
+    }
+  };
+  reader.readAsText(file);
+}
+
+// ---- SERVICE WORKER ----
+if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js'); }
+
+render();
+</script>
+</body>
+</html>
