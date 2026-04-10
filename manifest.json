@@ -1,7 +1,7 @@
 {
-  "name": "Reforço Escolar",
-  "short_name": "Reforço $",
-  "description": "Gestão financeira para reforço escolar",
+  "name": "Reforço Escolar Eduque",
+  "short_name": "Eduque",
+  "description": "Gestão financeira - Reforço Escolar Eduque",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#f4f6fb",
