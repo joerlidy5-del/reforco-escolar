@@ -13,112 +13,72 @@
 <title>Reforço Escolar</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-:root {
-  --blue: #1a56db;
-  --blue-light: #e8f0fe;
-  --blue-dark: #1341b0;
-  --green: #0a7c4e;
-  --green-light: #dcfce7;
-  --red: #b91c1c;
-  --red-light: #fee2e2;
-  --amber: #92400e;
-  --amber-light: #fef3c7;
-  --bg: #f4f6fb;
-  --surface: #ffffff;
-  --border: #e2e8f0;
-  --text: #0f172a;
-  --text-2: #64748b;
-  --text-3: #94a3b8;
-  --radius: 14px;
-  --radius-sm: 8px;
-  --nav-h: 64px;
-  --header-h: 56px;
-}
-* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-html, body { height: 100%; overflow: hidden; }
-body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); font-size: 15px; }
-
-/* LAYOUT */
-#app { display: flex; flex-direction: column; height: 100%; }
-.header { height: var(--header-h); background: var(--surface); border-bottom: 1px solid var(--border); display: flex; align-items: center; padding: 0 16px; gap: 10px; flex-shrink: 0; position: relative; }
-.header-title { font-size: 17px; font-weight: 600; flex: 1; }
-.header-action { background: none; border: none; cursor: pointer; color: var(--text-2); font-size: 22px; padding: 4px; line-height: 1; }
-.back-btn { background: none; border: none; cursor: pointer; color: var(--blue); font-size: 15px; font-weight: 500; padding: 4px; display: flex; align-items: center; gap: 4px; }
-.content { flex: 1; overflow-y: auto; padding: 16px; -webkit-overflow-scrolling: touch; }
-.nav { height: var(--nav-h); background: var(--surface); border-top: 1px solid var(--border); display: flex; flex-shrink: 0; }
-.nav-btn { flex: 1; border: none; background: none; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; font-size: 10px; font-family: 'DM Sans', sans-serif; color: var(--text-3); transition: color 0.15s; padding-bottom: env(safe-area-inset-bottom, 0); }
-.nav-btn.active { color: var(--blue); }
-.nav-icon { font-size: 22px; line-height: 1; }
-
-/* CARDS */
-.card { background: var(--surface); border-radius: var(--radius); border: 1px solid var(--border); padding: 14px 16px; margin-bottom: 10px; }
-.card-title { font-size: 13px; font-weight: 600; color: var(--text-2); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px; }
-
-/* METRICS */
-.metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
-.metric { background: var(--surface); border-radius: var(--radius); border: 1px solid var(--border); padding: 14px; }
-.metric-label { font-size: 12px; color: var(--text-2); margin-bottom: 6px; font-weight: 500; }
-.metric-val { font-size: 20px; font-weight: 600; }
-.c-green { color: var(--green); }
-.c-red { color: var(--red); }
-.c-blue { color: var(--blue); }
-
-/* LIST */
-.list-row { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--border); gap: 8px; }
-.list-row:last-child { border-bottom: none; }
-.row-name { font-size: 15px; font-weight: 500; }
-.row-sub { font-size: 12px; color: var(--text-2); margin-top: 2px; }
-.row-right { text-align: right; flex-shrink: 0; }
-
-/* BADGES */
-.badge { display: inline-block; padding: 3px 9px; border-radius: 20px; font-size: 11px; font-weight: 600; }
-.badge-green { background: var(--green-light); color: var(--green); }
-.badge-red { background: var(--red-light); color: var(--red); }
-.badge-amber { background: var(--amber-light); color: var(--amber); }
-.badge-blue { background: var(--blue-light); color: var(--blue); }
-.badge-gray { background: #f1f5f9; color: var(--text-2); }
-
-/* BUTTONS */
-.btn { display: block; width: 100%; padding: 13px; border-radius: var(--radius-sm); font-size: 15px; font-weight: 600; cursor: pointer; border: none; text-align: center; font-family: 'DM Sans', sans-serif; transition: opacity 0.15s; }
-.btn:active { opacity: 0.8; }
-.btn-primary { background: var(--blue); color: #fff; }
-.btn-secondary { background: #f1f5f9; color: var(--text); }
-.btn-danger { background: var(--red-light); color: var(--red); }
-.btn-sm { width: auto; display: inline-block; padding: 8px 14px; font-size: 13px; }
-.btn-row { display: flex; gap: 8px; margin-bottom: 14px; }
-.btn-row .btn { flex: 1; }
-
-/* FORMS */
-.field { margin-bottom: 12px; }
-.field label { font-size: 13px; font-weight: 500; color: var(--text-2); display: block; margin-bottom: 5px; }
-input, select, textarea { width: 100%; padding: 11px 13px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 15px; background: var(--surface); color: var(--text); font-family: 'DM Sans', sans-serif; outline: none; -webkit-appearance: none; appearance: none; }
-input:focus, select:focus, textarea:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(26,86,219,0.1); }
-.fields-row { display: flex; gap: 10px; }
-.fields-row .field { flex: 1; }
-
-/* MODAL */
-.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 200; display: flex; align-items: flex-end; }
-.modal-sheet { background: var(--surface); border-radius: 20px 20px 0 0; width: 100%; max-height: 88vh; overflow-y: auto; padding: 20px 16px calc(20px + env(safe-area-inset-bottom, 0)); }
-.modal-handle { width: 36px; height: 4px; background: var(--border); border-radius: 2px; margin: 0 auto 16px; }
-.modal-title { font-size: 18px; font-weight: 600; margin-bottom: 16px; }
-
-/* MISC */
-.section-label { font-size: 12px; font-weight: 600; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.6px; margin: 16px 0 8px; }
-.empty { text-align: center; padding: 48px 16px; color: var(--text-2); }
-.empty-icon { font-size: 44px; margin-bottom: 10px; }
-.progress-wrap { height: 6px; background: #e2e8f0; border-radius: 3px; overflow: hidden; margin-top: 8px; }
-.progress-bar { height: 100%; background: var(--blue); border-radius: 3px; transition: width 0.4s; }
-.alert-card { background: var(--amber-light); border: 1px solid #fcd34d; border-radius: var(--radius); padding: 12px 14px; margin-bottom: 10px; display: flex; gap: 10px; align-items: center; }
-.delete-btn { background: none; border: none; cursor: pointer; color: var(--text-3); font-size: 18px; padding: 4px; line-height: 1; }
-.avatar { width: 48px; height: 48px; border-radius: 50%; background: var(--blue-light); display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 600; color: var(--blue); flex-shrink: 0; }
+:root{--blue:#1a56db;--blue-light:#e8f0fe;--green:#0a7c4e;--green-light:#dcfce7;--red:#b91c1c;--red-light:#fee2e2;--amber:#92400e;--amber-light:#fef3c7;--bg:#f4f6fb;--surface:#fff;--border:#e2e8f0;--text:#0f172a;--text-2:#64748b;--text-3:#94a3b8;--radius:14px;--radius-sm:8px;--nav-h:64px;--header-h:56px}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;overflow:hidden}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);font-size:15px}
+#app{display:flex;flex-direction:column;height:100%}
+.header{height:var(--header-h);background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 16px;gap:10px;flex-shrink:0}
+.header-title{font-size:17px;font-weight:600;flex:1}
+.header-action{background:none;border:none;cursor:pointer;color:var(--text-2);font-size:22px;padding:4px;line-height:1}
+.back-btn{background:none;border:none;cursor:pointer;color:var(--blue);font-size:15px;font-weight:500;padding:4px;display:flex;align-items:center;gap:4px}
+.content{flex:1;overflow-y:auto;padding:16px;-webkit-overflow-scrolling:touch}
+.nav{height:var(--nav-h);background:var(--surface);border-top:1px solid var(--border);display:flex;flex-shrink:0}
+.nav-btn{flex:1;border:none;background:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:10px;font-family:'DM Sans',sans-serif;color:var(--text-3);transition:color .15s;padding-bottom:env(safe-area-inset-bottom,0)}
+.nav-btn.active{color:var(--blue)}
+.nav-icon{font-size:22px;line-height:1}
+.card{background:var(--surface);border-radius:var(--radius);border:1px solid var(--border);padding:14px 16px;margin-bottom:10px}
+.metrics{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.metric{background:var(--surface);border-radius:var(--radius);border:1px solid var(--border);padding:14px}
+.metric-label{font-size:12px;color:var(--text-2);margin-bottom:6px;font-weight:500}
+.metric-val{font-size:20px;font-weight:600}
+.c-green{color:var(--green)}.c-red{color:var(--red)}.c-blue{color:var(--blue)}
+.list-row{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border);gap:8px}
+.list-row:last-child{border-bottom:none}
+.row-name{font-size:15px;font-weight:500}
+.row-sub{font-size:12px;color:var(--text-2);margin-top:2px}
+.row-right{text-align:right;flex-shrink:0}
+.badge{display:inline-block;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:600}
+.badge-green{background:var(--green-light);color:var(--green)}
+.badge-red{background:var(--red-light);color:var(--red)}
+.badge-amber{background:var(--amber-light);color:var(--amber)}
+.badge-blue{background:var(--blue-light);color:var(--blue)}
+.badge-gray{background:#f1f5f9;color:var(--text-2)}
+.btn{display:block;width:100%;padding:13px;border-radius:var(--radius-sm);font-size:15px;font-weight:600;cursor:pointer;border:none;text-align:center;font-family:'DM Sans',sans-serif;transition:opacity .15s}
+.btn:active{opacity:.8}
+.btn-primary{background:var(--blue);color:#fff}
+.btn-secondary{background:#f1f5f9;color:var(--text)}
+.btn-danger{background:var(--red-light);color:var(--red)}
+.btn-green{background:var(--green-light);color:var(--green)}
+.btn-sm{width:auto;display:inline-block;padding:8px 14px;font-size:13px}
+.btn-row{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+.btn-row .btn{flex:1;min-width:80px}
+.field{margin-bottom:12px}
+.field label{font-size:13px;font-weight:500;color:var(--text-2);display:block;margin-bottom:5px}
+input,select,textarea{width:100%;padding:11px 13px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:15px;background:var(--surface);color:var(--text);font-family:'DM Sans',sans-serif;outline:none;-webkit-appearance:none;appearance:none}
+input:focus,select:focus,textarea:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(26,86,219,.1)}
+.fields-row{display:flex;gap:10px}
+.fields-row .field{flex:1}
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:200;display:flex;align-items:flex-end}
+.modal-sheet{background:var(--surface);border-radius:20px 20px 0 0;width:100%;max-height:90vh;overflow-y:auto;padding:20px 16px calc(20px + env(safe-area-inset-bottom,0))}
+.modal-handle{width:36px;height:4px;background:var(--border);border-radius:2px;margin:0 auto 16px}
+.modal-title{font-size:18px;font-weight:600;margin-bottom:16px}
+.section-label{font-size:12px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:.6px;margin:16px 0 8px}
+.empty{text-align:center;padding:48px 16px;color:var(--text-2)}
+.empty-icon{font-size:44px;margin-bottom:10px}
+.progress-wrap{height:6px;background:#e2e8f0;border-radius:3px;overflow:hidden;margin-top:8px}
+.progress-bar{height:100%;background:var(--blue);border-radius:3px;transition:width .4s}
+.alert-card{border-radius:var(--radius);padding:12px 14px;margin-bottom:10px;display:flex;gap:10px;align-items:center}
+.delete-btn{background:none;border:none;cursor:pointer;color:var(--text-3);font-size:18px;padding:4px;line-height:1}
+.avatar{width:48px;height:48px;border-radius:50%;background:var(--blue-light);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:600;color:var(--blue);flex-shrink:0}
 </style>
 </head>
 <body>
 <div id="app">
   <div class="header" id="header">
     <span style="font-size:24px">📚</span>
-    <span class="header-title" id="page-title">Reforço Escolar</span>
-    <button class="header-action" onclick="go('backup')" title="Backup">💾</button>
+    <span class="header-title">Reforço Escolar</span>
+    <button class="header-action" onclick="go('backup')">💾</button>
   </div>
   <div class="content" id="content"></div>
   <nav class="nav" id="nav">
@@ -129,48 +89,81 @@ input:focus, select:focus, textarea:focus { border-color: var(--blue); box-shado
     <button class="nav-btn" onclick="go('relatorio')" id="nb-relatorio"><span class="nav-icon">📊</span><span>Relatório</span></button>
   </nav>
 </div>
-
 <script>
-// ---- STATE ----
-let page = 'home', alunoId = null, modalType = null, editId = null, relMes = hoje().slice(0,7), modalPrefill = null;
+let page='home',alunoId=null,modalType=null,editId=null,relMes=hoje().slice(0,7),modalPrefill=null;
+let relTab='mensal',relAno=new Date().getFullYear().toString();
 
-// ---- STORAGE ----
-function load(k){ try{ return JSON.parse(localStorage.getItem(k)||'[]') }catch(e){ return [] } }
-function save(k,v){ localStorage.setItem(k,JSON.stringify(v)) }
-function uid(){ return Date.now().toString(36)+Math.random().toString(36).slice(2,5) }
-function hoje(){ return new Date().toISOString().slice(0,10) }
+function load(k){try{return JSON.parse(localStorage.getItem(k)||'[]')}catch(e){return[]}}
+function save(k,v){localStorage.setItem(k,JSON.stringify(v))}
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,5)}
+function hoje(){return new Date().toISOString().slice(0,10)}
+function brl(v){return 'R$ '+Number(v||0).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2})}
+function fdata(d){if(!d)return '';const[y,m,di]=d.split('-');return`${di}/${m}/${y}`}
+function nomesMes(){return['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez']}
+function mesLabel(ym){const[y,m]=ym.split('-');return nomesMes()[parseInt(m)-1]+'/'+y}
+function last12(){const r=[];const d=new Date();for(let i=0;i<12;i++){r.push(d.toISOString().slice(0,7));d.setMonth(d.getMonth()-1)}return r}
 
-// ---- FORMAT ----
-function brl(v){ return 'R$ '+Number(v||0).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2}) }
-function fdata(d){ if(!d)return ''; const[y,m,di]=d.split('-'); return `${di}/${m}/${y}` }
-function nomes12(){ const n=['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez']; return n }
-function mesLabel(ym){ const[y,m]=ym.split('-'); return nomes12()[parseInt(m)-1]+'/'+y }
-function last12(){ const r=[]; const d=new Date(); for(let i=0;i<12;i++){ r.push(d.toISOString().slice(0,7)); d.setMonth(d.getMonth()-1); } return r }
+// ---- VENCIMENTO & AUTO-INATIVAÇÃO ----
+function statusPag(aluno, pags){
+  const mes=hoje().slice(0,7);
+  const pago=pags.some(p=>p.alunoId===aluno.id&&p.data.startsWith(mes));
+  if(pago) return {st:'pago',dias:0};
+  if(!aluno.diaVencimento) return {st:'pendente',dias:0};
+  const dia=parseInt(aluno.diaVencimento);
+  const [ano,m]=mes.split('-');
+  const venc=new Date(parseInt(ano),parseInt(m)-1,dia);
+  const agora=new Date(); agora.setHours(0,0,0,0);
+  const diff=Math.floor((agora-venc)/(864e5));
+  if(diff<=0) return {st:'pendente',dias:0};
+  if(diff<=7) return {st:'vencido',dias:diff};
+  return {st:'vencido7',dias:diff};
+}
+
+function verificarVencimentos(){
+  const alunos=load('alunos'),pags=load('pagamentos');
+  let alterou=false;
+  alunos.forEach(a=>{
+    if(a.status==='ativo'||a.status==='inativo-auto'){
+      const s=statusPag(a,pags);
+      if(s.st==='vencido7'&&a.status==='ativo'){a.status='inativo-auto';alterou=true;}
+      else if(s.st==='pago'&&a.status==='inativo-auto'){a.status='ativo';alterou=true;}
+    }
+  });
+  if(alterou) save('alunos',alunos);
+}
+
+function badgeSt(s){
+  if(s.st==='pago') return`<span class="badge badge-green">✓ Pago</span>`;
+  if(s.st==='pendente') return`<span class="badge badge-amber">Pendente</span>`;
+  if(s.st==='vencido') return`<span class="badge badge-red">Vencido ${s.dias}d</span>`;
+  if(s.st==='vencido7') return`<span class="badge" style="background:#7f1d1d;color:#fca5a5">Vencido ${s.dias}d ⚠</span>`;
+  return'';
+}
 
 // ---- NAVIGATE ----
-function go(p, sub){
-  page = p; alunoId = sub||null;
+function go(p,sub){
+  page=p;alunoId=sub||null;
   document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
-  const nb = document.getElementById('nb-'+p); if(nb) nb.classList.add('active');
+  const nb=document.getElementById('nb-'+p);if(nb)nb.classList.add('active');
   render();
 }
 
 // ---- RENDER ----
 function render(){
-  const titles = {home:'Reforço Escolar',alunos:'Alunos',pagamentos:'Pagamentos',despesas:'Despesas',relatorio:'Relatório Mensal','aluno-detalhe':'Perfil do Aluno',backup:'Backup'};
-  const h = document.getElementById('header');
-  const nav = document.getElementById('nav');
-  nav.style.display = 'flex';
+  verificarVencimentos();
+  const h=document.getElementById('header'),nav=document.getElementById('nav');
+  nav.style.display='flex';
   if(page==='aluno-detalhe'){
-    h.innerHTML = `<button class="back-btn" onclick="go('alunos')">← Voltar</button><span class="header-title">Perfil</span>`;
-    nav.style.display = 'none';
+    h.innerHTML=`<button class="back-btn" onclick="go('alunos')">← Voltar</button><span class="header-title">Perfil</span>`;
+    nav.style.display='none';
   } else if(page==='backup'){
-    h.innerHTML = `<button class="back-btn" onclick="go('home')">← Voltar</button><span class="header-title">Backup</span>`;
-    nav.style.display = 'none';
+    h.innerHTML=`<button class="back-btn" onclick="go('home')">← Voltar</button><span class="header-title">Backup</span>`;
+    nav.style.display='none';
   } else {
-    h.innerHTML = `<span style="font-size:24px">📚</span><span class="header-title">${titles[page]||''}</span>`;
+    const titles={home:'Reforço Escolar',alunos:'Alunos',pagamentos:'Pagamentos',despesas:'Despesas',relatorio:'Relatório'};
+    h.innerHTML=`<span style="font-size:24px">📚</span><span class="header-title">${titles[page]||''}</span><button class="header-action" onclick="go('backup')">💾</button>`;
   }
-  const c = document.getElementById('content');
+  const c=document.getElementById('content');
   if(page==='home') renderHome(c);
   else if(page==='alunos') renderAlunos(c);
   else if(page==='aluno-detalhe') renderAlunoDetalhe(c);
@@ -181,13 +174,14 @@ function render(){
 }
 
 function renderHome(c){
-  const alunos=load('alunos'), pags=load('pagamentos'), desps=load('despesas');
+  const alunos=load('alunos'),pags=load('pagamentos'),desps=load('despesas');
   const mes=hoje().slice(0,7);
   const recMes=pags.filter(p=>p.data.startsWith(mes)).reduce((s,p)=>s+Number(p.valor),0);
   const despMes=desps.filter(d=>d.data.startsWith(mes)).reduce((s,d)=>s+Number(d.valor),0);
   const saldo=recMes-despMes;
   const ativos=alunos.filter(a=>a.status==='ativo');
-  const pend=ativos.filter(a=>!pags.some(p=>p.alunoId===a.id&&p.data.startsWith(mes)));
+  const vencidos=alunos.filter(a=>a.status==='ativo'&&statusPag(a,pags).st.startsWith('vencido'));
+  const inatAuto=alunos.filter(a=>a.status==='inativo-auto');
   c.innerHTML=`
     <p style="font-size:13px;color:var(--text-2);margin-bottom:10px">${mesLabel(mes)}</p>
     <div class="metrics">
@@ -196,39 +190,48 @@ function renderHome(c){
       <div class="metric"><div class="metric-label">Saldo</div><div class="metric-val ${saldo>=0?'c-blue':'c-red'}">${brl(saldo)}</div></div>
       <div class="metric"><div class="metric-label">Alunos ativos</div><div class="metric-val">${ativos.length}</div></div>
     </div>
-    ${pend.length?`<div class="alert-card"><span style="font-size:22px">⚠️</span><div><div style="font-weight:600;color:var(--amber)">${pend.length} aluno${pend.length>1?'s':''} sem pagamento</div><div style="font-size:12px;color:var(--amber)">${pend.map(a=>a.nome).join(', ')}</div></div></div>`:''}
+    ${vencidos.length?`<div class="alert-card" style="background:var(--red-light);border:1px solid #fca5a5"><span style="font-size:22px">🔴</span><div><div style="font-weight:600;color:var(--red)">${vencidos.length} aluno${vencidos.length>1?'s':''} com pagamento vencido</div><div style="font-size:12px;color:var(--red)">${vencidos.map(a=>a.nome).join(', ')}</div></div></div>`:''}
+    ${inatAuto.length?`<div class="alert-card" style="background:#f5f3ff;border:1px solid #c4b5fd"><span style="font-size:22px">⛔</span><div><div style="font-weight:600;color:#6d28d9">${inatAuto.length} aluno${inatAuto.length>1?'s':''} inativado${inatAuto.length>1?'s':''} automaticamente</div><div style="font-size:12px;color:#6d28d9">Vencimento há mais de 7 dias</div></div></div>`:''}
     <p class="section-label">Ações rápidas</p>
     <div class="card" style="cursor:pointer;margin-bottom:10px" onclick="openModal('pagamento')">
       <div style="display:flex;align-items:center;gap:12px"><span style="font-size:26px">💰</span><div><div style="font-weight:600">Registrar pagamento</div><div class="row-sub">Lançar mensalidade recebida</div></div><span style="margin-left:auto;color:var(--text-3)">›</span></div>
     </div>
     <div class="card" style="cursor:pointer" onclick="openModal('despesa')">
       <div style="display:flex;align-items:center;gap:12px"><span style="font-size:26px">🧾</span><div><div style="font-weight:600">Registrar despesa</div><div class="row-sub">Lançar gasto do mês</div></div><span style="margin-left:auto;color:var(--text-3)">›</span></div>
-    </div>
-  `;
+    </div>`;
 }
 
 function renderAlunos(c){
-  const alunos=load('alunos'), pags=load('pagamentos');
-  const mes=hoje().slice(0,7);
+  const alunos=load('alunos'),pags=load('pagamentos');
   const ativos=alunos.filter(a=>a.status==='ativo');
-  const inativos=alunos.filter(a=>a.status!=='ativo');
+  const inatAuto=alunos.filter(a=>a.status==='inativo-auto');
+  const inativos=alunos.filter(a=>a.status==='inativo');
   let html=`<div style="margin-bottom:12px"><button class="btn btn-primary" onclick="openModal('aluno')">+ Novo aluno</button></div>`;
-  if(!alunos.length){ html+=`<div class="empty"><div class="empty-icon">👩‍🎓</div><p>Nenhum aluno cadastrado</p></div>`; }
-  else {
+  if(!alunos.length){html+=`<div class="empty"><div class="empty-icon">👩‍🎓</div><p>Nenhum aluno cadastrado</p></div>`;}
+  else{
     if(ativos.length){
       html+=`<p class="section-label">Ativos (${ativos.length})</p><div class="card">`;
       ativos.forEach(a=>{
-        const pago=pags.some(p=>p.alunoId===a.id&&p.data.startsWith(mes));
+        const s=statusPag(a,pags);
         html+=`<div class="list-row" onclick="go('aluno-detalhe','${a.id}')" style="cursor:pointer">
           <div><div class="row-name">${a.nome}</div><div class="row-sub">${[a.materia,a.valor?brl(a.valor):'',a.diaVencimento?'Venc. dia '+a.diaVencimento:''].filter(Boolean).join(' · ')}</div></div>
-          <span class="badge ${pago?'badge-green':'badge-amber'}">${pago?'Pago':'Pendente'}</span>
-        </div>`;
+          ${badgeSt(s)}</div>`;
+      });
+      html+=`</div>`;
+    }
+    if(inatAuto.length){
+      html+=`<p class="section-label" style="color:var(--red)">Inativos automaticamente (${inatAuto.length})</p><div class="card" style="border-color:#fca5a5">`;
+      inatAuto.forEach(a=>{
+        const s=statusPag(a,pags);
+        html+=`<div class="list-row" onclick="go('aluno-detalhe','${a.id}')" style="cursor:pointer">
+          <div><div class="row-name" style="color:var(--red)">${a.nome}</div><div class="row-sub">${a.materia||''} · Vencido ${s.dias}d</div></div>
+          <span class="badge badge-red">Inativo</span></div>`;
       });
       html+=`</div>`;
     }
     if(inativos.length){
       html+=`<p class="section-label">Inativos (${inativos.length})</p><div class="card">`;
-      inativos.forEach(a=>{ html+=`<div class="list-row" onclick="go('aluno-detalhe','${a.id}')" style="cursor:pointer"><div><div class="row-name" style="color:var(--text-2)">${a.nome}</div><div class="row-sub">${a.materia||''}</div></div><span class="badge badge-gray">Inativo</span></div>`; });
+      inativos.forEach(a=>{html+=`<div class="list-row" onclick="go('aluno-detalhe','${a.id}')" style="cursor:pointer"><div><div class="row-name" style="color:var(--text-2)">${a.nome}</div><div class="row-sub">${a.materia||''}</div></div><span class="badge badge-gray">Inativo</span></div>`;});
       html+=`</div>`;
     }
   }
@@ -236,17 +239,23 @@ function renderAlunos(c){
 }
 
 function renderAlunoDetalhe(c){
-  const alunos=load('alunos'), pags=load('pagamentos');
+  const alunos=load('alunos'),pags=load('pagamentos');
   const a=alunos.find(x=>x.id===alunoId);
-  if(!a){ go('alunos'); return; }
+  if(!a){go('alunos');return;}
   const histPags=pags.filter(p=>p.alunoId===a.id).sort((x,y)=>y.data.localeCompare(x.data));
   const total=histPags.reduce((s,p)=>s+Number(p.valor),0);
+  const s=statusPag(a,pags);
+  const isInatAuto=a.status==='inativo-auto';
   c.innerHTML=`
-    <div class="card" style="text-align:center;margin-bottom:12px">
-      <div class="avatar" style="margin:0 auto 10px;width:60px;height:60px;font-size:22px">${a.nome.charAt(0).toUpperCase()}</div>
+    <div class="card" style="text-align:center;margin-bottom:12px${isInatAuto?';border-color:#fca5a5':''}">
+      <div class="avatar" style="margin:0 auto 10px;width:60px;height:60px;font-size:22px${isInatAuto?';background:var(--red-light);color:var(--red)':''}">${a.nome.charAt(0).toUpperCase()}</div>
       <div style="font-size:19px;font-weight:600">${a.nome}</div>
       ${a.materia?`<div class="row-sub" style="margin-top:3px">${a.materia}</div>`:''}
-      <span class="badge ${a.status==='ativo'?'badge-green':'badge-gray'}" style="margin-top:8px">${a.status==='ativo'?'Ativo':'Inativo'}</span>
+      <div style="margin-top:8px;display:flex;gap:6px;justify-content:center;flex-wrap:wrap">
+        ${isInatAuto?`<span class="badge badge-red">Inativo automático</span>`:`<span class="badge ${a.status==='ativo'?'badge-green':'badge-gray'}">${a.status==='ativo'?'Ativo':'Inativo'}</span>`}
+        ${badgeSt(s)}
+      </div>
+      ${isInatAuto?`<div style="margin-top:8px;font-size:12px;color:var(--red)">Inativado por falta de pagamento (${s.dias} dias). Voltará ativo ao pagar.</div>`:''}
     </div>
     <div class="metrics">
       <div class="metric"><div class="metric-label">Mensalidade</div><div class="metric-val c-blue" style="font-size:16px">${a.valor?brl(a.valor):'—'}</div></div>
@@ -261,22 +270,30 @@ function renderAlunoDetalhe(c){
     </div>
     <p class="section-label">Histórico de pagamentos</p>
     ${!histPags.length?`<div class="empty" style="padding:24px"><div class="empty-icon" style="font-size:32px">💰</div><p>Nenhum pagamento</p></div>`:`
-    <div class="card">${histPags.map(p=>`<div class="list-row"><div><div class="row-name">${brl(p.valor)}</div><div class="row-sub">${fdata(p.data)}${p.obs?' · '+p.obs:''}</div></div><button class="delete-btn" onclick="excluirPag('${p.id}')">🗑</button></div>`).join('')}</div>`}
+    <div class="card">${histPags.map(p=>`<div class="list-row">
+      <div><div class="row-name">${brl(p.valor)}</div><div class="row-sub">${fdata(p.data)}${p.obs?' · '+p.obs:''}</div></div>
+      <div style="display:flex;align-items:center;gap:6px">
+        <button onclick="gerarRecibo('${p.id}')" style="background:var(--green-light);border:none;border-radius:6px;padding:4px 8px;font-size:11px;font-weight:600;color:var(--green);cursor:pointer">📄 Recibo</button>
+        <button class="delete-btn" onclick="excluirPag('${p.id}')">🗑</button>
+      </div>
+    </div>`).join('')}</div>`}
   `;
 }
 
-function editarAluno(id){ editId=id; openModal('aluno'); }
+function editarAluno(id){editId=id;modalType='aluno';showModal();}
 
 function excluirAluno(id){
-  if(!confirm('Excluir este aluno e todos os seus dados?')) return;
-  save('alunos', load('alunos').filter(a=>a.id!==id));
-  save('pagamentos', load('pagamentos').filter(p=>p.alunoId!==id));
+  if(!confirm('Excluir este aluno e todos os seus dados?'))return;
+  save('alunos',load('alunos').filter(a=>a.id!==id));
+  save('pagamentos',load('pagamentos').filter(p=>p.alunoId!==id));
   go('alunos');
 }
 
 function excluirPag(id){
-  if(!confirm('Excluir este pagamento?')) return;
-  save('pagamentos', load('pagamentos').filter(p=>p.id!==id));
+  if(!confirm('Excluir este pagamento?'))return;
+  const pags=load('pagamentos').filter(p=>p.id!==id);
+  save('pagamentos',pags);
+  // Reativar se ficou sem pagamento vencido (verificarVencimentos faz isso no próximo render)
   renderAlunoDetalhe(document.getElementById('content'));
 }
 
@@ -292,14 +309,22 @@ function renderPagamentos(c){
     ${!pags.length?`<div class="empty"><div class="empty-icon">💰</div><p>Nenhum pagamento registrado</p></div>`:`
     <div class="card">${pags.slice(0,60).map(p=>{
       const al=alunos.find(a=>a.id===p.alunoId);
-      return `<div class="list-row"><div><div class="row-name">${al?al.nome:'—'}</div><div class="row-sub">${fdata(p.data)}${p.obs?' · '+p.obs:''}</div></div><div class="row-right"><div style="font-weight:600;color:var(--green)">${brl(p.valor)}</div><button class="delete-btn" onclick="excluirPagLista('${p.id}')">🗑</button></div></div>`;
-    }).join('')}</div>`}
-  `;
+      return`<div class="list-row">
+        <div><div class="row-name">${al?al.nome:'—'}</div><div class="row-sub">${fdata(p.data)}${p.obs?' · '+p.obs:''}</div></div>
+        <div class="row-right">
+          <div style="font-weight:600;color:var(--green)">${brl(p.valor)}</div>
+          <div style="display:flex;gap:4px;justify-content:flex-end;margin-top:3px">
+            <button onclick="gerarRecibo('${p.id}')" style="background:var(--green-light);border:none;border-radius:5px;padding:3px 7px;font-size:10px;font-weight:600;color:var(--green);cursor:pointer">📄</button>
+            <button class="delete-btn" onclick="excluirPagLista('${p.id}')">🗑</button>
+          </div>
+        </div>
+      </div>`;
+    }).join('')}</div>`}`;
 }
 
 function excluirPagLista(id){
-  if(!confirm('Excluir?')) return;
-  save('pagamentos', load('pagamentos').filter(p=>p.id!==id));
+  if(!confirm('Excluir?'))return;
+  save('pagamentos',load('pagamentos').filter(p=>p.id!==id));
   render();
 }
 
@@ -312,17 +337,32 @@ function renderDespesas(c){
     <div class="metric" style="margin-bottom:12px"><div class="metric-label">Total de despesas este mês</div><div class="metric-val c-red">${brl(total)}</div></div>
     <p class="section-label">Histórico</p>
     ${!desps.length?`<div class="empty"><div class="empty-icon">🧾</div><p>Nenhuma despesa registrada</p></div>`:`
-    <div class="card">${desps.slice(0,60).map(d=>`<div class="list-row"><div><div class="row-name">${d.descricao}</div><div class="row-sub">${fdata(d.data)} <span class="badge badge-blue">${d.categoria||'Geral'}</span></div></div><div class="row-right"><div style="font-weight:600;color:var(--red)">${brl(d.valor)}</div><button class="delete-btn" onclick="excluirDesp('${d.id}')">🗑</button></div></div>`).join('')}</div>`}
-  `;
+    <div class="card">${desps.slice(0,60).map(d=>`<div class="list-row">
+      <div><div class="row-name">${d.descricao}</div><div class="row-sub">${fdata(d.data)} <span class="badge badge-blue">${d.categoria||'Geral'}</span></div></div>
+      <div class="row-right"><div style="font-weight:600;color:var(--red)">${brl(d.valor)}</div><button class="delete-btn" onclick="excluirDesp('${d.id}')">🗑</button></div>
+    </div>`).join('')}</div>`}`;
 }
 
 function excluirDesp(id){
-  if(!confirm('Excluir?')) return;
-  save('despesas', load('despesas').filter(d=>d.id!==id));
+  if(!confirm('Excluir?'))return;
+  save('despesas',load('despesas').filter(d=>d.id!==id));
   render();
 }
 
+// ---- RELATÓRIO ----
 function renderRelatorio(c){
+  if(relTab==='mensal') renderRelMensal(c);
+  else renderRelAnual(c);
+}
+
+function tabBar(){
+  return`<div style="display:flex;background:#f1f5f9;border-radius:10px;padding:3px;margin-bottom:14px">
+    <button onclick="relTab='mensal';render()" style="flex:1;padding:8px;border:none;border-radius:8px;font-size:13px;font-weight:600;font-family:inherit;cursor:pointer;background:${relTab==='mensal'?'#fff':'transparent'};color:${relTab==='mensal'?'var(--text)':'var(--text-2)'};${relTab==='mensal'?'border:1px solid var(--border)':''}">Mensal</button>
+    <button onclick="relTab='anual';render()" style="flex:1;padding:8px;border:none;border-radius:8px;font-size:13px;font-weight:600;font-family:inherit;cursor:pointer;background:${relTab==='anual'?'#fff':'transparent'};color:${relTab==='anual'?'var(--text)':'var(--text-2)'};${relTab==='anual'?'border:1px solid var(--border)':''}">Anual</button>
+  </div>`;
+}
+
+function renderRelMensal(c){
   const mes=relMes;
   const pags=load('pagamentos').filter(p=>p.data.startsWith(mes));
   const desps=load('despesas').filter(d=>d.data.startsWith(mes));
@@ -332,16 +372,17 @@ function renderRelatorio(c){
   const saldo=rec-desp;
   const ativos=alunos.filter(a=>a.status==='ativo');
   const pagantes=new Set(pags.map(p=>p.alunoId)).size;
-  const inadimp=ativos.filter(a=>!pags.some(p=>p.alunoId===a.id));
+  const inadimp=alunos.filter(a=>(a.status==='ativo'||a.status==='inativo-auto')&&!pags.some(p=>p.alunoId===a.id));
   const esperado=ativos.reduce((s,a)=>s+Number(a.valor||0),0);
   const taxa=esperado>0?Math.round(rec/esperado*100):0;
   const catDesp={};
-  desps.forEach(d=>{ catDesp[d.categoria||'Geral']=(catDesp[d.categoria||'Geral']||0)+Number(d.valor) });
-  c.innerHTML=`
-    <div style="margin-bottom:14px">
-      <select onchange="relMes=this.value;render()" style="width:100%">
+  desps.forEach(d=>{catDesp[d.categoria||'Geral']=(catDesp[d.categoria||'Geral']||0)+Number(d.valor)});
+  c.innerHTML=tabBar()+`
+    <div style="margin-bottom:10px;display:flex;gap:8px;align-items:center">
+      <select onchange="relMes=this.value;render()" style="flex:1">
         ${last12().map(m=>`<option value="${m}" ${m===mes?'selected':''}>${mesLabel(m)}</option>`).join('')}
       </select>
+      <button class="btn btn-secondary btn-sm" onclick="gerarPDFMensal()">📄 PDF</button>
     </div>
     <div class="metrics">
       <div class="metric"><div class="metric-label">Receita</div><div class="metric-val c-green">${brl(rec)}</div></div>
@@ -355,31 +396,163 @@ function renderRelatorio(c){
       <div class="list-row"><span class="row-sub">Pagaram no mês</span><span style="font-weight:600;color:var(--green)">${pagantes}</span></div>
       <div class="list-row"><span class="row-sub">Inadimplentes</span><span style="font-weight:600;color:${inadimp.length?'var(--red)':'var(--green)'}">${inadimp.length}</span></div>
     </div>
-    ${inadimp.length?`<p class="section-label">Inadimplentes</p><div class="card">${inadimp.map(a=>`<div class="list-row"><div><div class="row-name">${a.nome}</div><div class="row-sub">${a.materia||''}</div></div><span class="badge badge-red">${a.valor?brl(a.valor):'—'}</span></div>`).join('')}</div>`:''}
-    ${Object.keys(catDesp).length?`<p class="section-label">Despesas por categoria</p><div class="card">${Object.entries(catDesp).sort((a,b)=>b[1]-a[1]).map(([cat,v])=>`<div class="list-row"><span>${cat}</span><span style="font-weight:600;color:var(--red)">${brl(v)}</span></div>`).join('')}</div>`:''}
-  `;
+    ${inadimp.length?`<p class="section-label">Inadimplentes</p><div class="card">${inadimp.map(a=>{const s=statusPag(a,load('pagamentos'));return`<div class="list-row"><div><div class="row-name">${a.nome}</div><div class="row-sub">${a.materia||''}</div></div><div style="text-align:right">${a.valor?`<div style="font-weight:600;color:var(--red)">${brl(a.valor)}</div>`:''}${badgeSt(s)}</div></div>`}).join('')}</div>`:''}
+    ${Object.keys(catDesp).length?`<p class="section-label">Despesas por categoria</p><div class="card">${Object.entries(catDesp).sort((a,b)=>b[1]-a[1]).map(([cat,v])=>`<div class="list-row"><span>${cat}</span><span style="font-weight:600;color:var(--red)">${brl(v)}</span></div>`).join('')}</div>`:''}`;
+}
+
+function renderRelAnual(c){
+  const todosAnos=[...new Set([...load('pagamentos').map(p=>p.data.slice(0,4)),...load('despesas').map(d=>d.data.slice(0,4)),new Date().getFullYear().toString()])].sort((a,b)=>b.localeCompare(a));
+  const ano=relAno,ms=['01','02','03','04','05','06','07','08','09','10','11','12'],nm=nomesMes();
+  const pags=load('pagamentos'),desps=load('despesas');
+  const dados=ms.map((m,i)=>{
+    const pref=`${ano}-${m}`;
+    const rec=pags.filter(p=>p.data.startsWith(pref)).reduce((s,p)=>s+Number(p.valor),0);
+    const desp=desps.filter(d=>d.data.startsWith(pref)).reduce((s,d)=>s+Number(d.valor),0);
+    return{label:nm[i],rec,desp,saldo:rec-desp};
+  });
+  const totalRec=dados.reduce((s,d)=>s+d.rec,0);
+  const totalDesp=dados.reduce((s,d)=>s+d.desp,0);
+  const totalSaldo=totalRec-totalDesp;
+  const maxVal=Math.max(...dados.map(d=>Math.max(d.rec,d.desp)),1);
+  const bH=80,bW=22,gap=4,totalW=ms.length*(bW*2+gap+6);
+  const bars=dados.map((d,i)=>{
+    const hR=Math.round((d.rec/maxVal)*bH),hD=Math.round((d.desp/maxVal)*bH),x=i*(bW*2+gap+6);
+    return`<g transform="translate(${x},0)"><rect x="0" y="${bH-hR}" width="${bW}" height="${hR}" fill="#0a7c4e" rx="3"/><rect x="${bW+gap}" y="${bH-hD}" width="${bW}" height="${hD}" fill="#b91c1c" rx="3"/><text x="${bW+gap/2}" y="${bH+13}" text-anchor="middle" font-size="9" fill="#94a3b8" font-family="DM Sans,sans-serif">${d.label}</text></g>`;
+  }).join('');
+  c.innerHTML=tabBar()+`
+    <div style="margin-bottom:10px;display:flex;gap:8px;align-items:center">
+      <select onchange="relAno=this.value;render()" style="flex:1">${todosAnos.map(a=>`<option value="${a}" ${a===ano?'selected':''}>${a}</option>`).join('')}</select>
+      <button class="btn btn-secondary btn-sm" onclick="gerarPDFAnual()">📄 PDF</button>
+    </div>
+    <div class="metrics">
+      <div class="metric"><div class="metric-label">Receita total</div><div class="metric-val c-green">${brl(totalRec)}</div></div>
+      <div class="metric"><div class="metric-label">Despesas total</div><div class="metric-val c-red">${brl(totalDesp)}</div></div>
+    </div>
+    <div class="metric" style="margin-bottom:12px"><div class="metric-label">Saldo do ano</div><div class="metric-val ${totalSaldo>=0?'c-blue':'c-red'}">${brl(totalSaldo)}</div></div>
+    <div class="card" style="overflow-x:auto">
+      <div style="display:flex;gap:12px;margin-bottom:8px;font-size:12px;font-weight:600">
+        <span style="display:flex;align-items:center;gap:5px"><span style="display:inline-block;width:10px;height:10px;background:#0a7c4e;border-radius:2px"></span>Receita</span>
+        <span style="display:flex;align-items:center;gap:5px"><span style="display:inline-block;width:10px;height:10px;background:#b91c1c;border-radius:2px"></span>Despesas</span>
+      </div>
+      <svg width="${totalW}" height="${bH+20}" style="display:block;min-width:100%">${bars}</svg>
+    </div>
+    <p class="section-label">Mês a mês</p>
+    <div class="card">
+      <div class="list-row" style="font-size:11px;font-weight:600;color:var(--text-3)"><span style="min-width:32px">Mês</span><span class="c-green">Receita</span><span class="c-red">Despesa</span><span>Saldo</span></div>
+      ${dados.map((d,i)=>`<div class="list-row"><span style="font-weight:500;min-width:32px">${nm[i]}</span><span class="c-green" style="font-size:13px">${d.rec>0?brl(d.rec):'—'}</span><span class="c-red" style="font-size:13px">${d.desp>0?brl(d.desp):'—'}</span><span class="${d.saldo>=0?'c-blue':'c-red'}" style="font-size:13px">${d.rec>0||d.desp>0?brl(d.saldo):'—'}</span></div>`).join('')}
+      <div class="list-row" style="border-top:2px solid var(--border);margin-top:4px;padding-top:10px"><span style="font-weight:700">Total</span><span class="c-green" style="font-size:13px;font-weight:700">${brl(totalRec)}</span><span class="c-red" style="font-size:13px;font-weight:700">${brl(totalDesp)}</span><span class="${totalSaldo>=0?'c-blue':'c-red'}" style="font-size:13px;font-weight:700">${brl(totalSaldo)}</span></div>
+    </div>`;
+}
+
+// ---- PDF RELATÓRIO MENSAL ----
+function gerarPDFMensal(){
+  const mes=relMes;
+  const pags=load('pagamentos').filter(p=>p.data.startsWith(mes));
+  const desps=load('despesas').filter(d=>d.data.startsWith(mes));
+  const alunos=load('alunos');
+  const rec=pags.reduce((s,p)=>s+Number(p.valor),0);
+  const desp=desps.reduce((s,d)=>s+Number(d.valor),0);
+  const saldo=rec-desp;
+  const inadimp=alunos.filter(a=>(a.status==='ativo'||a.status==='inativo-auto')&&!pags.some(p=>p.alunoId===a.id));
+  const pagLinhas=pags.map(p=>{const al=alunos.find(a=>a.id===p.alunoId);return`<tr><td>${al?al.nome:'—'}</td><td>${fdata(p.data)}</td><td style="text-align:right;color:#0a7c4e;font-weight:600">${brl(p.valor)}</td><td>${p.obs||''}</td></tr>`;}).join('');
+  const despLinhas=desps.map(d=>`<tr><td>${d.descricao}</td><td>${fdata(d.data)}</td><td>${d.categoria||''}</td><td style="text-align:right;color:#b91c1c;font-weight:600">${brl(d.valor)}</td></tr>`).join('');
+  const inadLinhas=inadimp.map(a=>`<tr><td>${a.nome}</td><td>${a.materia||''}</td><td style="text-align:right;color:#b91c1c">${a.valor?brl(a.valor):'—'}</td></tr>`).join('');
+  const html=`<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><title>Relatório ${mesLabel(mes)}</title>
+  <style>body{font-family:Arial,sans-serif;padding:32px;color:#0f172a;font-size:14px}h1{font-size:22px;margin-bottom:4px}h2{font-size:15px;font-weight:600;margin:24px 0 8px;color:#1a56db;border-bottom:1px solid #e2e8f0;padding-bottom:4px}.resumo{display:flex;gap:20px;margin:16px 0}.box{background:#f4f6fb;border-radius:8px;padding:12px 20px;text-align:center}.box-label{font-size:11px;color:#64748b;margin-bottom:4px}.box-val{font-size:20px;font-weight:700}table{width:100%;border-collapse:collapse;margin-bottom:16px}th{background:#f4f6fb;padding:8px 10px;text-align:left;font-size:12px;color:#64748b}td{padding:8px 10px;border-bottom:1px solid #f1f5f9;font-size:13px}.footer{margin-top:32px;font-size:11px;color:#94a3b8}@media print{button{display:none}}</style></head><body>
+  <h1>📚 Relatório Mensal</h1><p style="color:#64748b">${mesLabel(mes)} · Gerado em ${new Date().toLocaleString('pt-BR')}</p>
+  <div class="resumo">
+    <div class="box"><div class="box-label">Receita</div><div class="box-val" style="color:#0a7c4e">${brl(rec)}</div></div>
+    <div class="box"><div class="box-label">Despesas</div><div class="box-val" style="color:#b91c1c">${brl(desp)}</div></div>
+    <div class="box"><div class="box-label">Saldo</div><div class="box-val" style="color:${saldo>=0?'#1a56db':'#b91c1c'}">${brl(saldo)}</div></div>
+  </div>
+  ${pagLinhas?`<h2>Pagamentos recebidos (${pags.length})</h2><table><tr><th>Aluno</th><th>Data</th><th style="text-align:right">Valor</th><th>Obs.</th></tr>${pagLinhas}</table>`:''}
+  ${despLinhas?`<h2>Despesas (${desps.length})</h2><table><tr><th>Descrição</th><th>Data</th><th>Categoria</th><th style="text-align:right">Valor</th></tr>${despLinhas}</table>`:''}
+  ${inadLinhas?`<h2>Inadimplentes (${inadimp.length})</h2><table><tr><th>Aluno</th><th>Matéria</th><th style="text-align:right">Mensalidade</th></tr>${inadLinhas}</table>`:''}
+  <div class="footer">Reforço Escolar · Relatório gerado automaticamente</div>
+  <br><button onclick="window.print()" style="padding:10px 20px;background:#1a56db;color:#fff;border:none;border-radius:8px;font-size:14px;cursor:pointer">🖨 Imprimir / Salvar PDF</button>
+  </body></html>`;
+  abrirJanela(html);
+}
+
+function gerarPDFAnual(){
+  const ano=relAno;
+  const ms=['01','02','03','04','05','06','07','08','09','10','11','12'],nm=nomesMes();
+  const pags=load('pagamentos'),desps=load('despesas');
+  const dados=ms.map((m,i)=>{
+    const pref=`${ano}-${m}`;
+    const rec=pags.filter(p=>p.data.startsWith(pref)).reduce((s,p)=>s+Number(p.valor),0);
+    const desp=desps.filter(d=>d.data.startsWith(pref)).reduce((s,d)=>s+Number(d.valor),0);
+    return{label:nm[i],rec,desp,saldo:rec-desp};
+  });
+  const totalRec=dados.reduce((s,d)=>s+d.rec,0),totalDesp=dados.reduce((s,d)=>s+d.desp,0),totalSaldo=totalRec-totalDesp;
+  const linhas=dados.map((d,i)=>`<tr><td>${nm[i]}</td><td style="color:#0a7c4e;text-align:right">${d.rec>0?brl(d.rec):'—'}</td><td style="color:#b91c1c;text-align:right">${d.desp>0?brl(d.desp):'—'}</td><td style="color:${d.saldo>=0?'#1a56db':'#b91c1c'};text-align:right;font-weight:600">${d.rec>0||d.desp>0?brl(d.saldo):'—'}</td></tr>`).join('');
+  const html=`<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><title>Relatório Anual ${ano}</title>
+  <style>body{font-family:Arial,sans-serif;padding:32px;color:#0f172a;font-size:14px}h1{font-size:22px;margin-bottom:4px}.resumo{display:flex;gap:20px;margin:16px 0}.box{background:#f4f6fb;border-radius:8px;padding:12px 20px;text-align:center}.box-label{font-size:11px;color:#64748b;margin-bottom:4px}.box-val{font-size:20px;font-weight:700}table{width:100%;border-collapse:collapse}th{background:#f4f6fb;padding:8px 10px;text-align:right;font-size:12px;color:#64748b}th:first-child{text-align:left}td{padding:8px 10px;border-bottom:1px solid #f1f5f9;font-size:13px}tr.total{background:#f4f6fb;font-weight:700}@media print{button{display:none}}</style></head><body>
+  <h1>📊 Relatório Anual ${ano}</h1><p style="color:#64748b">Gerado em ${new Date().toLocaleString('pt-BR')}</p>
+  <div class="resumo">
+    <div class="box"><div class="box-label">Receita total</div><div class="box-val" style="color:#0a7c4e">${brl(totalRec)}</div></div>
+    <div class="box"><div class="box-label">Despesas total</div><div class="box-val" style="color:#b91c1c">${brl(totalDesp)}</div></div>
+    <div class="box"><div class="box-label">Saldo do ano</div><div class="box-val" style="color:${totalSaldo>=0?'#1a56db':'#b91c1c'}">${brl(totalSaldo)}</div></div>
+  </div>
+  <table><tr><th>Mês</th><th>Receita</th><th>Despesas</th><th>Saldo</th></tr>${linhas}
+  <tr class="total"><td>Total</td><td style="color:#0a7c4e;text-align:right">${brl(totalRec)}</td><td style="color:#b91c1c;text-align:right">${brl(totalDesp)}</td><td style="color:${totalSaldo>=0?'#1a56db':'#b91c1c'};text-align:right">${brl(totalSaldo)}</td></tr></table>
+  <br><button onclick="window.print()" style="padding:10px 20px;background:#1a56db;color:#fff;border:none;border-radius:8px;font-size:14px;cursor:pointer">🖨 Imprimir / Salvar PDF</button>
+  </body></html>`;
+  abrirJanela(html);
+}
+
+// ---- RECIBO DE PAGAMENTO ----
+function gerarRecibo(pagId){
+  const pag=load('pagamentos').find(p=>p.id===pagId);
+  if(!pag){alert('Pagamento não encontrado');return;}
+  const aluno=load('alunos').find(a=>a.id===pag.alunoId);
+  const nome=aluno?aluno.nome:'—';
+  const materia=aluno?aluno.materia||'':'';
+  const nRecibo=pagId.slice(-6).toUpperCase();
+  const html=`<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><title>Recibo ${nome}</title>
+  <style>body{font-family:Arial,sans-serif;padding:40px;color:#0f172a;max-width:600px;margin:0 auto}.topo{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:24px}.titulo{font-size:26px;font-weight:700;color:#1a56db}.sub{font-size:13px;color:#64748b;margin-top:2px}.n-recibo{font-size:12px;color:#94a3b8;text-align:right}.linha{border-top:2px solid #e2e8f0;margin:20px 0}.campo{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #f1f5f9;font-size:14px}.campo-label{color:#64748b}.campo-val{font-weight:600}.valor-box{background:#dcfce7;border-radius:12px;padding:20px;text-align:center;margin:24px 0}.valor-label{font-size:13px;color:#0a7c4e;margin-bottom:6px}.valor-num{font-size:32px;font-weight:700;color:#0a7c4e}.assinatura{margin-top:48px;text-align:center;border-top:1px solid #0f172a;padding-top:8px;font-size:12px;color:#64748b;display:inline-block;min-width:200px}.rodape{margin-top:40px;font-size:11px;color:#94a3b8;text-align:center}@media print{button{display:none}}</style></head><body>
+  <div class="topo">
+    <div><div class="titulo">📚 RECIBO</div><div class="sub">Aulas de Reforço Escolar</div></div>
+    <div class="n-recibo">Nº ${nRecibo}<br>${fdata(pag.data)}</div>
+  </div>
+  <div class="linha"></div>
+  <div class="campo"><span class="campo-label">Aluno(a)</span><span class="campo-val">${nome}</span></div>
+  ${materia?`<div class="campo"><span class="campo-label">Matéria / Nível</span><span class="campo-val">${materia}</span></div>`:''}
+  <div class="campo"><span class="campo-label">Data do pagamento</span><span class="campo-val">${fdata(pag.data)}</span></div>
+  ${pag.obs?`<div class="campo"><span class="campo-label">Referência</span><span class="campo-val">${pag.obs}</span></div>`:''}
+  <div class="valor-box"><div class="valor-label">Valor recebido</div><div class="valor-num">${brl(pag.valor)}</div></div>
+  <p style="font-size:13px;color:#64748b">Declaro que recebi a quantia acima referente às aulas de reforço escolar prestadas ao(à) aluno(a) <strong>${nome}</strong>.</p>
+  <div style="margin-top:48px;text-align:center"><div class="assinatura">Professor(a)</div></div>
+  <div class="rodape">Recibo gerado pelo app Reforço Escolar · ${new Date().toLocaleDateString('pt-BR')}</div>
+  <br><button onclick="window.print()" style="padding:10px 20px;background:#1a56db;color:#fff;border:none;border-radius:8px;font-size:14px;cursor:pointer;display:block;margin:0 auto">🖨 Imprimir / Salvar PDF / Compartilhar</button>
+  </body></html>`;
+  abrirJanela(html);
+}
+
+function abrirJanela(html){
+  const w=window.open('','_blank');
+  if(w){w.document.write(html);w.document.close();}
+  else{alert('Permita pop-ups para gerar o PDF.');}
 }
 
 // ---- MODAL ----
-function openModal(type, prefill){
-  modalType=type; modalPrefill=prefill||null;
-  if(!prefill) editId=null;
-  showModal();
+function openModal(type,prefill){
+  modalType=type;modalPrefill=prefill||null;editId=null;showModal();
 }
 
 function showModal(){
-  const old=document.getElementById('modal-ov'); if(old) old.remove();
+  const old=document.getElementById('modal-ov');if(old)old.remove();
   const ov=document.createElement('div');
-  ov.className='modal-overlay'; ov.id='modal-ov';
-  ov.onclick=e=>{ if(e.target===ov){ ov.remove(); modalType=null; editId=null; } };
-  const sh=document.createElement('div'); sh.className='modal-sheet';
+  ov.className='modal-overlay';ov.id='modal-ov';
+  ov.onclick=e=>{if(e.target===ov){ov.remove();modalType=null;editId=null;}};
+  const sh=document.createElement('div');sh.className='modal-sheet';
   sh.innerHTML='<div class="modal-handle"></div>'+getModalContent();
-  ov.appendChild(sh); document.getElementById('app').appendChild(ov);
-  if(modalType==='pagamento' && modalPrefill){
+  ov.appendChild(sh);document.getElementById('app').appendChild(ov);
+  if(modalType==='pagamento'&&modalPrefill){
     setTimeout(()=>{
       const al=load('alunos').find(a=>a.id===modalPrefill);
       const vf=document.getElementById('mf-valor');
-      if(al&&al.valor&&vf) vf.value=al.valor;
+      if(al&&al.valor&&vf)vf.value=al.valor;
     },30);
   }
 }
@@ -388,7 +561,7 @@ function getModalContent(){
   if(modalType==='aluno'){
     const alunos=load('alunos');
     const ed=editId?alunos.find(a=>a.id===editId):null;
-    return `<div class="modal-title">${ed?'Editar':'Novo'} aluno</div>
+    return`<div class="modal-title">${ed?'Editar':'Novo'} aluno</div>
       <div class="field"><label>Nome *</label><input id="mf-nome" placeholder="Nome completo" value="${ed?ed.nome:''}"></div>
       <div class="field"><label>Matéria / Nível</label><input id="mf-mat" placeholder="Ex: Matemática, Ensino Médio" value="${ed?ed.materia||'':''}"></div>
       <div class="fields-row">
@@ -396,169 +569,148 @@ function getModalContent(){
         <div class="field"><label>Dia vencimento</label><input id="mf-dia" type="number" min="1" max="31" placeholder="5" value="${ed?ed.diaVencimento||'':''}"></div>
       </div>
       <div class="field"><label>Telefone</label><input id="mf-tel" placeholder="(11) 99999-9999" value="${ed?ed.telefone||'':''}"></div>
-      <div class="field"><label>Status</label><select id="mf-status"><option value="ativo" ${!ed||ed.status==='ativo'?'selected':''}>Ativo</option><option value="inativo" ${ed&&ed.status==='inativo'?'selected':''}>Inativo</option></select></div>
+      <div class="field"><label>Status</label><select id="mf-status">
+        <option value="ativo" ${!ed||ed.status==='ativo'?'selected':''}>Ativo</option>
+        <option value="inativo" ${ed&&ed.status==='inativo'?'selected':''}>Inativo</option>
+      </select></div>
       <div class="field"><label>Observações</label><textarea id="mf-obs" rows="2" placeholder="Anotações...">${ed?ed.obs||'':''}</textarea></div>
       <button class="btn btn-primary" onclick="salvarAluno()">Salvar aluno</button>`;
   }
   if(modalType==='pagamento'){
-    const alunos=load('alunos').filter(a=>a.status==='ativo');
-    return `<div class="modal-title">Registrar pagamento</div>
-      <div class="field"><label>Aluno *</label><select id="mf-aluno" onchange="autoValor()"><option value="">Selecione</option>${alunos.map(a=>`<option value="${a.id}" ${modalPrefill===a.id?'selected':''}>${a.nome}</option>`).join('')}</select></div>
+    const alunos=load('alunos').filter(a=>a.status==='ativo'||a.status==='inativo-auto');
+    return`<div class="modal-title">Registrar pagamento</div>
+      <div class="field"><label>Aluno *</label><select id="mf-aluno" onchange="autoValor()"><option value="">Selecione</option>${alunos.map(a=>`<option value="${a.id}" ${modalPrefill===a.id?'selected':''}>${a.nome}${a.status==='inativo-auto'?' (inativo)':''}</option>`).join('')}</select></div>
       <div class="field"><label>Valor (R$) *</label><input id="mf-valor" type="number" placeholder="0,00"></div>
       <div class="field"><label>Data *</label><input id="mf-data" type="date" value="${hoje()}"></div>
       <div class="field"><label>Observação</label><input id="mf-obs" placeholder="Ex: Referente a abril"></div>
       <button class="btn btn-primary" onclick="salvarPagamento()">Salvar pagamento</button>`;
   }
   if(modalType==='despesa'){
-    return `<div class="modal-title">Registrar despesa</div>
+    return`<div class="modal-title">Registrar despesa</div>
       <div class="field"><label>Descrição *</label><input id="mf-desc" placeholder="Ex: Material didático"></div>
       <div class="field"><label>Valor (R$) *</label><input id="mf-valor" type="number" placeholder="0,00"></div>
       <div class="field"><label>Data *</label><input id="mf-data" type="date" value="${hoje()}"></div>
-      <div class="field"><label>Categoria</label><select id="mf-cat"><option>Material didático</option><option>Transporte</option><option>Plataforma/Software</option><option>Alimentação</option><option>Outros</option></select></div>
+      <div class="field"><label>Categoria</label><select id="mf-cat">
+        <option>Material didático</option>
+        <option>Aluguel</option>
+        <option>Transporte</option>
+        <option>Plataforma/Software</option>
+        <option>Alimentação</option>
+        <option>Outros</option>
+      </select></div>
       <div class="field"><label>Observação</label><input id="mf-obs" placeholder="Opcional"></div>
       <button class="btn btn-primary" onclick="salvarDespesa()">Salvar despesa</button>`;
   }
-  return '';
+  return'';
 }
 
 function autoValor(){
-  const sel=document.getElementById('mf-aluno'); if(!sel) return;
+  const sel=document.getElementById('mf-aluno');if(!sel)return;
   const al=load('alunos').find(a=>a.id===sel.value);
   const vf=document.getElementById('mf-valor');
-  if(al&&al.valor&&vf) vf.value=al.valor;
+  if(al&&al.valor&&vf)vf.value=al.valor;
 }
 
-function closeModal(){ const ov=document.getElementById('modal-ov'); if(ov) ov.remove(); modalType=null; editId=null; }
+function closeModal(){const ov=document.getElementById('modal-ov');if(ov)ov.remove();modalType=null;editId=null;}
 
 function salvarAluno(){
   const nome=(document.getElementById('mf-nome').value||'').trim();
-  if(!nome){ alert('Informe o nome'); return; }
+  if(!nome){alert('Informe o nome');return;}
   const alunos=load('alunos');
-  const obj={ id:editId||uid(), nome, materia:(document.getElementById('mf-mat').value||'').trim(), valor:document.getElementById('mf-valor').value, diaVencimento:document.getElementById('mf-dia').value, telefone:(document.getElementById('mf-tel').value||'').trim(), status:document.getElementById('mf-status').value, obs:(document.getElementById('mf-obs').value||'').trim() };
-  if(editId){ const i=alunos.findIndex(a=>a.id===editId); alunos[i]=obj; } else { alunos.push(obj); }
-  save('alunos',alunos); closeModal();
-  if(page==='aluno-detalhe') renderAlunoDetalhe(document.getElementById('content')); else render();
+  const obj={id:editId||uid(),nome,materia:(document.getElementById('mf-mat').value||'').trim(),valor:document.getElementById('mf-valor').value,diaVencimento:document.getElementById('mf-dia').value,telefone:(document.getElementById('mf-tel').value||'').trim(),status:document.getElementById('mf-status').value,obs:(document.getElementById('mf-obs').value||'').trim()};
+  if(editId){const i=alunos.findIndex(a=>a.id===editId);alunos[i]=obj;}else{alunos.push(obj);}
+  save('alunos',alunos);closeModal();
+  if(page==='aluno-detalhe')renderAlunoDetalhe(document.getElementById('content'));else render();
 }
 
 function salvarPagamento(){
   const alunoId=document.getElementById('mf-aluno').value;
   const valor=document.getElementById('mf-valor').value;
   const data=document.getElementById('mf-data').value;
-  if(!alunoId||!valor||!data){ alert('Preencha os campos obrigatórios'); return; }
+  if(!alunoId||!valor||!data){alert('Preencha os campos obrigatórios');return;}
   const pags=load('pagamentos');
-  pags.push({ id:uid(), alunoId, valor:parseFloat(valor), data, obs:(document.getElementById('mf-obs').value||'').trim() });
-  save('pagamentos',pags); closeModal();
-  if(page==='aluno-detalhe') renderAlunoDetalhe(document.getElementById('content')); else render();
+  pags.push({id:uid(),alunoId,valor:parseFloat(valor),data,obs:(document.getElementById('mf-obs').value||'').trim()});
+  save('pagamentos',pags);
+  // Reativar automaticamente se estava inativo-auto
+  const alunos=load('alunos');
+  const idx=alunos.findIndex(a=>a.id===alunoId);
+  if(idx>=0&&alunos[idx].status==='inativo-auto'){alunos[idx].status='ativo';save('alunos',alunos);}
+  closeModal();
+  if(page==='aluno-detalhe')renderAlunoDetalhe(document.getElementById('content'));else render();
 }
 
 function salvarDespesa(){
   const desc=(document.getElementById('mf-desc').value||'').trim();
   const valor=document.getElementById('mf-valor').value;
   const data=document.getElementById('mf-data').value;
-  if(!desc||!valor||!data){ alert('Preencha os campos obrigatórios'); return; }
+  if(!desc||!valor||!data){alert('Preencha os campos obrigatórios');return;}
   const desps=load('despesas');
-  desps.push({ id:uid(), descricao:desc, valor:parseFloat(valor), data, categoria:document.getElementById('mf-cat').value, obs:(document.getElementById('mf-obs').value||'').trim() });
-  save('despesas',desps); closeModal(); render();
+  desps.push({id:uid(),descricao:desc,valor:parseFloat(valor),data,categoria:document.getElementById('mf-cat').value,obs:(document.getElementById('mf-obs').value||'').trim()});
+  save('despesas',desps);closeModal();render();
 }
 
 // ---- BACKUP ----
 function renderBackup(c){
-  const alunos=load('alunos'), pags=load('pagamentos'), desps=load('despesas');
+  const alunos=load('alunos'),pags=load('pagamentos'),desps=load('despesas');
   const total=alunos.length+pags.length+desps.length;
   const ultima=localStorage.getItem('ultimo-backup');
   c.innerHTML=`
     <div class="card" style="margin-bottom:10px">
       <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
         <span style="font-size:36px">💾</span>
-        <div>
-          <div style="font-weight:600;font-size:16px">Exportar backup</div>
-          <div class="row-sub">${total} registro${total!==1?'s':''} salvos</div>
-          ${ultima?`<div style="font-size:11px;color:var(--text-3);margin-top:2px">Último backup: ${ultima}</div>`:''}
-        </div>
+        <div><div style="font-weight:600;font-size:16px">Exportar backup</div><div class="row-sub">${total} registro${total!==1?'s':''} salvos</div>${ultima?`<div style="font-size:11px;color:var(--text-3);margin-top:2px">Último: ${ultima}</div>`:''}</div>
       </div>
-      <p style="font-size:13px;color:var(--text-2);margin-bottom:12px">Salva um arquivo <strong>.json</strong> com todos os dados (alunos, pagamentos e despesas). Guarde no Google Drive, WhatsApp ou onde preferir.</p>
+      <p style="font-size:13px;color:var(--text-2);margin-bottom:12px">Salva um arquivo <strong>.json</strong> com todos os dados. Guarde no Google Drive ou WhatsApp.</p>
       <button class="btn btn-primary" onclick="exportarBackup()">📥 Baixar backup agora</button>
     </div>
-
     <div class="card" style="margin-bottom:10px">
       <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
         <span style="font-size:36px">📤</span>
-        <div>
-          <div style="font-weight:600;font-size:16px">Importar backup</div>
-          <div class="row-sub">Restaurar dados de um arquivo .json</div>
-        </div>
+        <div><div style="font-weight:600;font-size:16px">Importar backup</div><div class="row-sub">Restaurar dados de um arquivo .json</div></div>
       </div>
-      <p style="font-size:13px;color:var(--text-2);margin-bottom:12px">Selecione um arquivo de backup gerado por este app. <strong style="color:var(--red)">Atenção: os dados atuais serão substituídos.</strong></p>
-      <label style="display:block">
-        <input type="file" accept=".json" onchange="importarBackup(event)" style="display:none" id="file-input">
-        <span class="btn btn-secondary" onclick="document.getElementById('file-input').click()" style="display:block;cursor:pointer;text-align:center">📂 Selecionar arquivo .json</span>
-      </label>
+      <p style="font-size:13px;color:var(--text-2);margin-bottom:12px">Selecione um arquivo de backup. <strong style="color:var(--red)">Atenção: dados atuais serão substituídos.</strong></p>
+      <input type="file" accept=".json" onchange="importarBackup(event)" style="display:none" id="file-input">
+      <button class="btn btn-secondary" onclick="document.getElementById('file-input').click()">📂 Selecionar arquivo .json</button>
     </div>
-
     <div class="card" style="background:var(--amber-light);border-color:#fcd34d">
-      <div style="font-weight:600;color:var(--amber);margin-bottom:6px">💡 Dica de rotina</div>
-      <p style="font-size:13px;color:var(--amber)">Faça backup <strong>uma vez por semana</strong> e salve no Google Drive ou envie para si mesmo pelo WhatsApp. Assim seus dados estão seguros mesmo se o celular for perdido ou resetado.</p>
+      <div style="font-weight:600;color:var(--amber);margin-bottom:6px">💡 Dica</div>
+      <p style="font-size:13px;color:var(--amber)">Faça backup <strong>uma vez por semana</strong> e salve no Google Drive.</p>
     </div>
-
-    <p class="section-label" style="margin-top:16px">Resumo dos dados</p>
+    <p class="section-label">Resumo</p>
     <div class="card">
-      <div class="list-row"><span class="row-sub">Alunos cadastrados</span><span style="font-weight:600">${alunos.length}</span></div>
-      <div class="list-row"><span class="row-sub">Pagamentos registrados</span><span style="font-weight:600">${pags.length}</span></div>
-      <div class="list-row"><span class="row-sub">Despesas registradas</span><span style="font-weight:600">${desps.length}</span></div>
-    </div>
-  `;
+      <div class="list-row"><span class="row-sub">Alunos</span><span style="font-weight:600">${alunos.length}</span></div>
+      <div class="list-row"><span class="row-sub">Pagamentos</span><span style="font-weight:600">${pags.length}</span></div>
+      <div class="list-row"><span class="row-sub">Despesas</span><span style="font-weight:600">${desps.length}</span></div>
+    </div>`;
 }
 
 function exportarBackup(){
-  const dados={
-    versao: '1.0',
-    dataExportacao: new Date().toISOString(),
-    alunos: load('alunos'),
-    pagamentos: load('pagamentos'),
-    despesas: load('despesas')
-  };
-  const json = JSON.stringify(dados, null, 2);
-  const blob = new Blob([json], {type:'application/json'});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  const dataStr = new Date().toLocaleDateString('pt-BR').replace(/\//g,'-');
-  a.href = url;
-  a.download = `backup-reforco-${dataStr}.json`;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
-  const agora = new Date().toLocaleString('pt-BR');
-  localStorage.setItem('ultimo-backup', agora);
+  const dados={versao:'1.0',dataExportacao:new Date().toISOString(),alunos:load('alunos'),pagamentos:load('pagamentos'),despesas:load('despesas')};
+  const blob=new Blob([JSON.stringify(dados,null,2)],{type:'application/json'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;a.download=`backup-reforco-${new Date().toLocaleDateString('pt-BR').replace(/\//g,'-')}.json`;
+  document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);
+  localStorage.setItem('ultimo-backup',new Date().toLocaleString('pt-BR'));
   renderBackup(document.getElementById('content'));
 }
 
 function importarBackup(e){
-  const file = e.target.files[0];
-  if(!file) return;
-  const reader = new FileReader();
-  reader.onload = function(ev){
-    try {
-      const dados = JSON.parse(ev.target.result);
-      if(!dados.alunos || !dados.pagamentos || !dados.despesas){
-        alert('Arquivo inválido. Certifique-se de usar um backup gerado por este app.'); return;
-      }
-      if(!confirm(`Importar backup de ${dados.dataExportacao ? new Date(dados.dataExportacao).toLocaleString('pt-BR') : 'data desconhecida'}?\n\n${dados.alunos.length} alunos, ${dados.pagamentos.length} pagamentos, ${dados.despesas.length} despesas.\n\nOs dados atuais serão substituídos.`)) return;
-      save('alunos', dados.alunos);
-      save('pagamentos', dados.pagamentos);
-      save('despesas', dados.despesas);
-      alert('✅ Backup restaurado com sucesso!');
-      go('home');
-    } catch(err){
-      alert('Erro ao ler o arquivo. Verifique se é um backup válido.');
-    }
+  const file=e.target.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=function(ev){
+    try{
+      const dados=JSON.parse(ev.target.result);
+      if(!dados.alunos||!dados.pagamentos||!dados.despesas){alert('Arquivo inválido.');return;}
+      if(!confirm(`Importar backup?\n${dados.alunos.length} alunos, ${dados.pagamentos.length} pagamentos, ${dados.despesas.length} despesas.\n\nDados atuais serão substituídos.`))return;
+      save('alunos',dados.alunos);save('pagamentos',dados.pagamentos);save('despesas',dados.despesas);
+      alert('✅ Backup restaurado!');go('home');
+    }catch(err){alert('Erro ao ler o arquivo.');}
   };
   reader.readAsText(file);
 }
 
-// ---- SERVICE WORKER ----
-if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js'); }
-
+if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js');}
 render();
 </script>
 </body>
